@@ -919,7 +919,7 @@ export class OpenSeaPort {
         accountAddress: string;
         recipientAddress?: string;
         referrerAddress?: string; }
-  ): Promise<WyvernAtomicMatchParameters> {
+  ): Promise<{ args: WyvernAtomicMatchParameters, txnData: {from: string, value?: BigNumber, gas?: number } }> {
     const matchingOrder = this._makeMatchingOrder({
       order,
       accountAddress,
@@ -1959,7 +1959,7 @@ export class OpenSeaPort {
       extra,
       listingTime: times.listingTime,
       expirationTime: times.expirationTime,
-      salt: new BigNumber(Math.floor(Math.random() * 500)),
+      salt: WyvernProtocol.generatePseudoRandomSalt(),
       metadata: {
         asset: wyAsset,
         schema: schema.name as WyvernSchemaName,
@@ -2043,7 +2043,7 @@ export class OpenSeaPort {
       extra,
       listingTime: times.listingTime,
       expirationTime: times.expirationTime,
-      salt: new BigNumber(Math.floor(Math.random() * 500)),
+      salt: WyvernProtocol.generatePseudoRandomSalt(),
       metadata: {
         asset: wyAsset,
         schema: schema.name as WyvernSchemaName,
@@ -2198,7 +2198,7 @@ export class OpenSeaPort {
       extra,
       listingTime: times.listingTime,
       expirationTime: times.expirationTime,
-      salt: new BigNumber(Math.floor(Math.random() * 500)),
+      salt: WyvernProtocol.generatePseudoRandomSalt(),
       metadata: {
         bundle,
         referrerAddress
@@ -2288,7 +2288,7 @@ export class OpenSeaPort {
       extra,
       listingTime: times.listingTime,
       expirationTime: times.expirationTime,
-      salt: new BigNumber(Math.floor(Math.random() * 500)),
+      salt: WyvernProtocol.generatePseudoRandomSalt(),
       metadata: {
         bundle
       }
@@ -2367,7 +2367,7 @@ export class OpenSeaPort {
       extra: makeBigNumber(0),
       listingTime: times.listingTime,
       expirationTime: times.expirationTime,
-      salt: new BigNumber(Math.floor(Math.random() * 500)),
+      salt: WyvernProtocol.generatePseudoRandomSalt(),
       metadata: order.metadata,
     }
 
@@ -2946,7 +2946,7 @@ export class OpenSeaPort {
       { buy: Order; sell: Order; accountAddress: string; metadata?: string },
     onlyGetGasEstimation: false,
     onlyGetCallArgs: true,
-  ): Promise<WyvernAtomicMatchParameters>
+  ): Promise<{ args: WyvernAtomicMatchParameters, txnData: {from: string, value?: BigNumber, gas?: number } }>
 
   private async _atomicMatch(
     { buy, sell, accountAddress, metadata = NULL_BLOCK_HASH }:
@@ -2954,7 +2954,7 @@ export class OpenSeaPort {
     onlyGetGasEstimation: boolean,
     onlyGetCallArgs: boolean,
   ): Promise<string | number | any> {
-    let value
+    let value: BigNumber | undefined = undefined;
     let shouldValidateBuy = true
     let shouldValidateSell = true
 
@@ -2981,7 +2981,7 @@ export class OpenSeaPort {
     this._dispatch(EventType.MatchOrders, { buy, sell, accountAddress, matchMetadata: metadata })
 
     let txHash
-    const txnData: any = { from: accountAddress, value }
+    const txnData: {from: string, value?: BigNumber, gas?: number } = { from: accountAddress, value }
     const args: WyvernAtomicMatchParameters = [
       [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target,
         buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
@@ -3021,7 +3021,7 @@ export class OpenSeaPort {
     }
 
     if(onlyGetCallArgs) {
-      return [args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], txnData];
+      return {args: [args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]], txnData}
     }
     // Then do the transaction
     try {
