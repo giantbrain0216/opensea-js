@@ -1994,8 +1994,8 @@ export class OpenSeaPort {
     const openSeaAsset = await this.api.getAsset(asset)
 
     const { totalSellerFeeBasisPoints,
-      totalBuyerFeeBasisPoints,
-      sellerBountyBasisPoints } = await this.computeFees({ asset: openSeaAsset, side: OrderSide.Sell, extraBountyBasisPoints })
+            totalBuyerFeeBasisPoints,
+            sellerBountyBasisPoints } = await this.computeFees({ asset: openSeaAsset, side: OrderSide.Sell, extraBountyBasisPoints })
 
     const { target, calldata, replacementPattern } = encodeSell(schema, wyAsset, accountAddress)
 
@@ -2157,7 +2157,7 @@ export class OpenSeaPort {
       ? await this.api.getAsset(assets[0])
       : undefined
     const { totalBuyerFeeBasisPoints,
-      totalSellerFeeBasisPoints } = await this.computeFees({ asset, extraBountyBasisPoints, side: OrderSide.Buy })
+            totalSellerFeeBasisPoints } = await this.computeFees({ asset, extraBountyBasisPoints, side: OrderSide.Buy })
 
     const {
       makerRelayerFee,
@@ -2956,7 +2956,7 @@ export class OpenSeaPort {
     onlyGetGasEstimation: boolean,
     onlyGetCallArgs: boolean,
   ): Promise<string | number | any> {
-    let value: BigNumber | undefined = undefined;
+    let value: BigNumber | undefined
     let shouldValidateBuy = true
     let shouldValidateSell = true
 
@@ -3014,15 +3014,15 @@ export class OpenSeaPort {
       const gasEstimate = await this._wyvernProtocolReadOnly.wyvernExchange.atomicMatch_.estimateGasAsync(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], txnData)
 
       txnData.gas = this._correctGasAmount(gasEstimate)
-      if(onlyGetGasEstimation) {
-        return txnData.gas;
+      if (onlyGetGasEstimation) {
+        return txnData.gas
       }
     } catch (error) {
       console.error(`Failed atomic match with args: `, args, error)
       throw new Error(`Oops, the Ethereum network rejected this transaction :( The OpenSea devs have been alerted, but this problem is typically due an item being locked or untransferrable. The exact error was "${error.message.substr(0, MAX_ERROR_LENGTH)}..."`)
     }
 
-    if(onlyGetCallArgs) {
+    if (onlyGetCallArgs) {
       return {args: [args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]], txnData}
     }
     // Then do the transaction
