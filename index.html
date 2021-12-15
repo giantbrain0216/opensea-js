@@ -1,1429 +1,367 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>opensea-js</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">opensea-js</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1> opensea-js</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<p align="center">
-					<img src="https://storage.googleapis.com/opensea-static/opensea-js-logo-updated.png" />
-				</p>
-				<h1 id="opensea-js-omit-in-toc-">OpenSea.js <!-- omit in toc --></h1>
-				<p><a href="https://opensource.org/licenses/MIT"><img src="https://badges.frapsoft.com/os/mit/mit.svg?v=102" alt="https://badges.frapsoft.com/os/mit/mit.svg?v=102"></a>
-					<a href="https://coveralls.io/github/ProjectOpenSea/opensea-js?branch=master"><img src="https://coveralls.io/repos/github/ProjectOpenSea/opensea-js/badge.svg?branch=master" alt="Coverage Status"></a>
-				<a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg" alt="styled with prettier"></a></p>
-				<!-- [![npm](https://img.shields.io/npm/v/wyvern-js.svg)](https://www.npmjs.com/package/wyvern-js) [![npm](https://img.shields.io/npm/dt/wyvern-js.svg)](https://www.npmjs.com/package/wyvern-js) -->
-				<p>A JavaScript library for crypto-native ecommerce: buying, selling, and bidding on any cryptogood. With OpenSea.js, you can easily build your own native marketplace for your non-fungible tokens, or NFTs. These can be ERC-721 or ERC-1155 (semi-fungible) items. You don&#39;t have to deploy your own smart contracts or backend orderbooks.</p>
-				<p>Published on <a href="https://github.com/ProjectOpenSea/opensea-js">GitHub</a> and <a href="https://www.npmjs.com/package/opensea-js">npm</a></p>
-				<ul>
-					<li><a href="#synopsis">Synopsis</a></li>
-					<li><a href="#installation">Installation</a></li>
-					<li><a href="#getting-started">Getting Started</a><ul>
-							<li><a href="#fetching-assets">Fetching Assets</a><ul>
-									<li><a href="#checking-balances-and-ownerships">Checking Balances and Ownerships</a></li>
-								</ul>
-							</li>
-							<li><a href="#making-offers">Making Offers</a><ul>
-									<li><a href="#bidding-on-multiple-assets">Bidding on Multiple Assets</a></li>
-									<li><a href="#bidding-on-ens-short-name-auctions">Bidding on ENS Short Name Auctions</a></li>
-									<li><a href="#offer-limits">Offer Limits</a></li>
-								</ul>
-							</li>
-							<li><a href="#making-listings--selling-items">Making Listings / Selling Items</a><ul>
-									<li><a href="#creating-english-auctions">Creating English Auctions</a></li>
-								</ul>
-							</li>
-							<li><a href="#running-crowdsales">Running Crowdsales</a></li>
-							<li><a href="#fetching-orders">Fetching Orders</a></li>
-							<li><a href="#buying-items">Buying Items</a></li>
-							<li><a href="#accepting-offers">Accepting Offers</a></li>
-							<li><a href="#transferring-items-or-coins-gifting">Transferring Items or Coins (Gifting)</a></li>
-						</ul>
-					</li>
-					<li><a href="#advanced">Advanced</a><ul>
-							<li><a href="#scheduling-future-listings">Scheduling Future Listings</a></li>
-							<li><a href="#purchasing-items-for-other-users">Purchasing Items for Other Users</a></li>
-							<li><a href="#bulk-transfers">Bulk Transfers</a></li>
-							<li><a href="#creating-bundles">Creating Bundles</a></li>
-							<li><a href="#using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</a></li>
-							<li><a href="#private-auctions">Private Auctions</a></li>
-							<li><a href="#sharing-sale-fees-with-opensea">Sharing Sale Fees with OpenSea</a></li>
-							<li><a href="#listening-to-events">Listening to Events</a></li>
-						</ul>
-					</li>
-					<li><a href="#learning-more">Learning More</a><ul>
-							<li><a href="#example-code">Example Code</a></li>
-						</ul>
-					</li>
-					<li><a href="#migrating-to-version-10">Migrating to version 1.0</a></li>
-					<li><a href="#development-information">Development Information</a></li>
-					<li><a href="#diagnosing-common-issues">Diagnosing Common Issues</a></li>
-				</ul>
-				<h2 id="synopsis">Synopsis</h2>
-				<p>This is the JavaScript SDK for <a href="https://opensea.io">OpenSea</a>, the largest marketplace for NFTs.</p>
-				<p>It allows developers to access the official orderbook, filter it, create buy orders (<strong>offers</strong>), create sell orders (<strong>auctions</strong>), create collections of assets to sell at once (<strong>bundles</strong>), and complete trades programmatically.</p>
-				<p>You get started by <a href="https://docs.opensea.io/reference">requesting an API key</a> and instantiating your own seaport. Then you can create orders off-chain or fulfill orders on-chain, and listen to events (like <code>ApproveAllAssets</code> or <code>WrapEth</code>) in the process.</p>
-				<p>Happy seafaring! ⛵️</p>
-				<h2 id="installation">Installation</h2>
-				<p>We recommend switching to Node.js version 8.11 to make sure common crypto dependencies work. Execute <code>nvm use</code>, if you have Node Version Manager.</p>
-				<p>Then, in your project, run:</p>
-				<pre><code class="lang-bash">npm install --save opensea-js
-</code></pre>
-				<p>Install <a href="https://github.com/ethereum/web3.js">web3</a> too if you haven&#39;t already.</p>
-				<p>If you run into an error while building the dependencies and you&#39;re on a Mac, run this:</p>
-				<pre><code class="lang-bash">xcode-select --install <span class="hljs-comment"># Install Command Line Tools if you haven't already.</span>
-sudo xcode-select --switch /Library/Developer/CommandLineTools <span class="hljs-comment"># Enable command line tools</span>
-sudo npm explore npm -g -- npm install node-gyp@latest <span class="hljs-comment"># (Optional) update node-gyp</span>
-</code></pre>
-				<h2 id="getting-started">Getting Started</h2>
-				<p>To get started, first request an API key <a href="https://docs.opensea.io/reference">here</a>. Note the terms of use for using API data.</p>
-				<p>Then, create a new OpenSeaJS client, called an OpenSeaPort 🚢, using your Web3 provider:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Web3 <span class="hljs-keyword">from</span> <span class="hljs-string">'web3'</span>
-<span class="hljs-keyword">import</span> { OpenSeaPort, Network } <span class="hljs-keyword">from</span> <span class="hljs-string">'opensea-js'</span>
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>opensea-js</title><meta name="description" content="Documentation for opensea-js"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">opensea-js</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>opensea-js</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography"><p align="center">
+  <img src="https://storage.googleapis.com/opensea-static/opensea-js-logo-updated.png" />
+</p>
 
-<span class="hljs-comment">// This example provider won't let you make transactions, only read-only calls:</span>
-<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> Web3.providers.HttpProvider(<span class="hljs-string">'https://mainnet.infura.io'</span>)
 
-<span class="hljs-keyword">const</span> seaport = <span class="hljs-keyword">new</span> OpenSeaPort(provider, {
-  <span class="hljs-attr">networkName</span>: Network.Main,
-  <span class="hljs-attr">apiKey</span>: YOUR_API_KEY
-})
-</code></pre>
-				<p><strong>NOTE:</strong> Using the sample Infura provider above won&#39;t let you authorize transactions, which are needed when approving and trading assets and currency. To make transactions, you need a provider with a private key or mnemonic set.</p>
-				<p>In a browser with web3 or an extension like <a href="https://metamask.io/">MetaMask</a> or <a href="http://www.meetdapper.com/">Dapper</a>, you can use <code>window.ethereum</code> (or <code>window.web3.currentProvider</code> for legacy mobile web3 browsers) to access the native provider. In a Node.js script, you can follow <a href="https://github.com/ProjectOpenSea/opensea-creatures/blob/master/scripts/sell.js">this example</a> to use a custom mnemonic.</p>
-				<h3 id="fetching-assets">Fetching Assets</h3>
-				<p>Assets are items on OpenSea. They can be non-fungible (conforming to standards like ERC721), semi-fungible (like ERC1155 assets), and even fungible (ERC20).</p>
-				<p>Assets are represented by the <code>Asset</code> type, defined in TypeScript:</p>
-				<pre><code class="lang-TypeScript"><span class="hljs-comment">/**
- * Simple, unannotated non-fungible asset spec
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Asset {
-  <span class="hljs-comment">// The asset's token ID, or null if ERC-20</span>
-  tokenId: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>,
-  <span class="hljs-comment">// The asset's contract address</span>
-  tokenAddress: <span class="hljs-built_in">string</span>,
-  <span class="hljs-comment">// The Wyvern schema name (defaults to "ERC721") for this asset</span>
-  schemaName?: WyvernSchemaName,
-  <span class="hljs-comment">// Optional for ENS names</span>
-  name?: <span class="hljs-built_in">string</span>,
-  <span class="hljs-comment">// Optional for fungible items</span>
-  decimals?: <span class="hljs-built_in">number</span>
-}
-</code></pre>
-				<p>The <code>Asset</code> type is the minimal type you need for most marketplace actions. <code>WyvernSchemaName</code> is optional. If omitted, most actions will assume you&#39;re referring to a non-fungible, ERC721 asset. Other options include &#39;ERC20&#39; and &#39;ERC1155&#39;. You can import <code>import { WyvernSchemaName } from &quot;opensea-js/lib/types&quot;</code> to get the full range of schemas supported.</p>
-				<p>You can fetch an asset using the <code>OpenSeaAPI</code>, which will return an <code>OpenSeaAsset</code> for you (<code>OpenSeaAsset</code> extends <code>Asset</code>):</p>
-				<pre><code class="lang-TypeScript"><span class="hljs-keyword">const</span> asset: OpenSeaAsset = <span class="hljs-keyword">await</span> seaport.api.getAsset({
-  tokenAddress, <span class="hljs-comment">// string</span>
-  tokenId, <span class="hljs-comment">// string | number | null</span>
-})
-</code></pre>
-				<p>Note that fungible ERC20 assets have <code>null</code> as their token id.</p>
-				<h4 id="checking-balances-and-ownerships">Checking Balances and Ownerships</h4>
-				<p>The nice thing about the <code>Asset</code> type is that it unifies logic between fungibles, non-fungibles, and semi-fungibles.</p>
-				<p>Once you have an <code>Asset</code>, you can see how many any account owns, regardless of whether it&#39;s an ERC-20 token or a non-fungible good:</p>
-				<pre><code class="lang-JavaScript">
-<span class="hljs-keyword">const</span> asset = {
-  <span class="hljs-attr">tokenAddress</span>: <span class="hljs-string">"0x06012c8cf97bead5deae237070f9587f8e7a266d"</span>, <span class="hljs-comment">// CryptoKitties</span>
-  <span class="hljs-attr">tokenId</span>: <span class="hljs-string">"1"</span>, <span class="hljs-comment">// Token ID</span>
-}
+<a href="#openseajs-" id="openseajs-" style="color: inherit; text-decoration: none;">
+  <h1>OpenSea.js <!-- omit in toc --></h1>
+</a>
+<p><a href="https://opensource.org/licenses/MIT"><img src="https://badges.frapsoft.com/os/mit/mit.svg?v=102" alt="https://badges.frapsoft.com/os/mit/mit.svg?v=102"></a>
+<a href="https://coveralls.io/github/ProjectOpenSea/opensea-js?branch=master"><img src="https://coveralls.io/repos/github/ProjectOpenSea/opensea-js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg" alt="styled with prettier"></a></p>
+<!-- [![npm](https://img.shields.io/npm/v/wyvern-js.svg)](https://www.npmjs.com/package/wyvern-js) [![npm](https://img.shields.io/npm/dt/wyvern-js.svg)](https://www.npmjs.com/package/wyvern-js) -->
 
-<span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> seaport.getAssetBalance({
-  accountAddress, <span class="hljs-comment">// string</span>
-  asset, <span class="hljs-comment">// Asset</span>
-})
+<p>A JavaScript library for crypto-native ecommerce: buying, selling, and bidding on any cryptogood. With OpenSea.js, you can easily build your own native marketplace for your non-fungible tokens, or NFTs. These can be ERC-721 or ERC-1155 (semi-fungible) items. You don&#39;t have to deploy your own smart contracts or backend orderbooks.</p>
+<p>Published on <a href="https://github.com/ProjectOpenSea/opensea-js">GitHub</a> and <a href="https://www.npmjs.com/package/opensea-js">npm</a></p>
+<ul>
+<li><a href="#synopsis">Synopsis</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#getting-started">Getting Started</a><ul>
+<li><a href="#fetching-assets">Fetching Assets</a><ul>
+<li><a href="#checking-balances-and-ownerships">Checking Balances and Ownerships</a></li>
+</ul>
+</li>
+<li><a href="#making-offers">Making Offers</a><ul>
+<li><a href="#bidding-on-multiple-assets">Bidding on Multiple Assets</a></li>
+<li><a href="#bidding-on-ens-short-name-auctions">Bidding on ENS Short Name Auctions</a></li>
+<li><a href="#offer-limits">Offer Limits</a></li>
+</ul>
+</li>
+<li><a href="#making-listings--selling-items">Making Listings / Selling Items</a><ul>
+<li><a href="#creating-english-auctions">Creating English Auctions</a></li>
+</ul>
+</li>
+<li><a href="#running-crowdsales">Running Crowdsales</a></li>
+<li><a href="#fetching-orders">Fetching Orders</a></li>
+<li><a href="#buying-items">Buying Items</a></li>
+<li><a href="#accepting-offers">Accepting Offers</a></li>
+<li><a href="#transferring-items-or-coins-gifting">Transferring Items or Coins (Gifting)</a></li>
+</ul>
+</li>
+<li><a href="#advanced">Advanced</a><ul>
+<li><a href="#scheduling-future-listings">Scheduling Future Listings</a></li>
+<li><a href="#purchasing-items-for-other-users">Purchasing Items for Other Users</a></li>
+<li><a href="#bulk-transfers">Bulk Transfers</a></li>
+<li><a href="#creating-bundles">Creating Bundles</a></li>
+<li><a href="#using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</a></li>
+<li><a href="#private-auctions">Private Auctions</a></li>
+<li><a href="#sharing-sale-fees-with-opensea">Sharing Sale Fees with OpenSea</a></li>
+<li><a href="#listening-to-events">Listening to Events</a></li>
+</ul>
+</li>
+<li><a href="#learning-more">Learning More</a><ul>
+<li><a href="#example-code">Example Code</a></li>
+</ul>
+</li>
+<li><a href="#migrating-to-version-10">Migrating to version 1.0</a></li>
+<li><a href="#development-information">Development Information</a></li>
+<li><a href="#diagnosing-common-issues">Diagnosing Common Issues</a></li>
+</ul>
 
-<span class="hljs-keyword">const</span> ownsKitty = balance.greaterThan(<span class="hljs-number">0</span>)
-</code></pre>
-				<p>You can use this same method for fungible ERC-20 tokens like wrapped ETH (WETH). As a convenience, you can use this fungible wrapper for checking fungible balances:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> balanceOfWETH = <span class="hljs-keyword">await</span> seaport.getTokenBalance({
-  accountAddress, <span class="hljs-comment">// string</span>
-  <span class="hljs-attr">tokenAddress</span>: <span class="hljs-string">"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"</span>
-})
-</code></pre>
-				<h3 id="making-offers">Making Offers</h3>
-				<p>Once you have your asset, you can do this to make an offer on it:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-comment">// Token ID and smart contract address for a non-fungible token:</span>
-<span class="hljs-keyword">const</span> { tokenId, tokenAddress } = YOUR_ASSET
-<span class="hljs-comment">// The offerer's wallet address:</span>
-<span class="hljs-keyword">const</span> accountAddress = <span class="hljs-string">"0x1234..."</span>
+<a href="#synopsis" id="synopsis" style="color: inherit; text-decoration: none;">
+  <h2>Synopsis</h2>
+</a>
+<p>This is the JavaScript SDK for <a href="https://opensea.io">OpenSea</a>, the largest marketplace for NFTs.</p>
+<p>It allows developers to access the official orderbook, filter it, create buy orders (<strong>offers</strong>), create sell orders (<strong>auctions</strong>), create collections of assets to sell at once (<strong>bundles</strong>), and complete trades programmatically.</p>
+<p>You get started by <a href="https://docs.opensea.io/reference">requesting an API key</a> and instantiating your own seaport. Then you can create orders off-chain or fulfill orders on-chain, and listen to events (like <code>ApproveAllAssets</code> or <code>WrapEth</code>) in the process.</p>
+<p>Happy seafaring! ⛵️</p>
 
-<span class="hljs-keyword">const</span> offer = <span class="hljs-keyword">await</span> seaport.createBuyOrder({
-  <span class="hljs-attr">asset</span>: {
-    tokenId,
-    tokenAddress,
-    schemaName <span class="hljs-comment">// WyvernSchemaName. If omitted, defaults to 'ERC721'. Other options include 'ERC20' and 'ERC1155'</span>
-  },
-  accountAddress,
-  <span class="hljs-comment">// Value of the offer, in units of the payment token (or wrapped ETH if none is specified):</span>
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">1.2</span>,
-})
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<p>We recommend switching to Node.js version 8.11 to make sure common crypto dependencies work. Execute <code>nvm use</code>, if you have Node Version Manager.</p>
+<p>Then, in your project, run:</p>
+<pre><code class="language-bash"><span class="hl-0">npm install --save opensea-js</span>
 </code></pre>
-				<p>When you make an offer on an item owned by an OpenSea user, <strong>that user will automatically get an email notifying them with the offer amount</strong>, if it&#39;s above their desired threshold.</p>
-				<h4 id="bidding-on-multiple-assets">Bidding on Multiple Assets</h4>
-				<p>You can also make an offer on a bundle of assets. This could also be used for creating a bounty for whoever can acquire a list of items. Here&#39;s how you do it:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> assets = YOUR_ASSETS
-<span class="hljs-keyword">const</span> offer = <span class="hljs-keyword">await</span> seaport.createBundleBuyOrder({
-  assets,
-  accountAddress,
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">2.4</span>,
-  <span class="hljs-comment">// Optional expiration time for the order, in Unix time (seconds):</span>
-  <span class="hljs-attr">expirationTime</span>: <span class="hljs-built_in">Math</span>.round(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span> + <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">24</span>) <span class="hljs-comment">// One day from now</span>
-})
+<p>Install <a href="https://github.com/ethereum/web3.js">web3</a> too if you haven&#39;t already.</p>
+<p>If you run into an error while building the dependencies and you&#39;re on a Mac, run this:</p>
+<pre><code class="language-bash"><span class="hl-0">xcode-select --install </span><span class="hl-1"># Install Command Line Tools if you haven&#39;t already.</span><br/><span class="hl-0">sudo xcode-select --switch /Library/Developer/CommandLineTools </span><span class="hl-1"># Enable command line tools</span><br/><span class="hl-0">sudo npm explore npm -g -- npm install node-gyp@latest </span><span class="hl-1"># (Optional) update node-gyp</span>
 </code></pre>
-				<p>When you bid on multiple assets, an email will be sent to the owner if a bundle exists on OpenSea that contains the assets. In the future, OpenSea will send emails to multiple owners if the assets aren&#39;t all owned by the same wallet.</p>
-				<h4 id="bidding-on-ens-short-name-auctions">Bidding on ENS Short Name Auctions</h4>
-				<p>The Ethereum Name Service (ENS) is auctioning short (3-6 character) names that can be used for labeling wallet addresses and more. Learn more on the <a href="https://opensea.io/ens">ENS FAQ</a>.</p>
-				<p>To bid, you must use the ENS Short Name schema:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> {
-  tokenId,
-  <span class="hljs-comment">// Token address should be `0xfac7bea255a6990f749363002136af6556b31e04` on mainnet</span>
-  tokenAddress,
-  <span class="hljs-comment">// Name must have `.eth` at the end and correspond with the tokenId</span>
-  name
-} = ENS_ASSET <span class="hljs-comment">// You can get an ENS asset from `seaport.api.getAsset(...)`</span>
 
-<span class="hljs-keyword">const</span> offer = <span class="hljs-keyword">await</span> seaport.createBuyOrder({
-  <span class="hljs-attr">asset</span>: {
-    tokenId,
-    tokenAddress,
-    name,
-    <span class="hljs-comment">// Only needed for the short-name auction, not ENS names</span>
-    <span class="hljs-comment">// that have been sold once already:</span>
-    <span class="hljs-attr">schemaName</span>: <span class="hljs-string">"ENSShortNameAuction"</span>
-  },
-  <span class="hljs-comment">// Your wallet address (the bidder's address):</span>
-  <span class="hljs-attr">accountAddress</span>: <span class="hljs-string">"0x1234..."</span>
-  <span class="hljs-comment">// Value of the offer, in wrapped ETH:</span>
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">1.2</span>,
-})
+<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+  <h2>Getting Started</h2>
+</a>
+<p>To get started, first request an API key <a href="https://docs.opensea.io/reference">here</a>. Note the terms of use for using API data.</p>
+<p>Then, create a new OpenSeaJS client, called an OpenSeaPort 🚢, using your Web3 provider:</p>
+<pre><code class="language-JavaScript"><span class="hl-2">import</span><span class="hl-0"> </span><span class="hl-3">*</span><span class="hl-0"> </span><span class="hl-2">as</span><span class="hl-0"> </span><span class="hl-4">Web3</span><span class="hl-0"> </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&#39;web3&#39;</span><br/><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-4">OpenSeaPort</span><span class="hl-0">, </span><span class="hl-4">Network</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&#39;opensea-js&#39;</span><br/><br/><span class="hl-1">// This example provider won&#39;t let you make transactions, only read-only calls:</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">provider</span><span class="hl-0"> = </span><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-4">Web3</span><span class="hl-0">.</span><span class="hl-4">providers</span><span class="hl-0">.</span><span class="hl-7">HttpProvider</span><span class="hl-0">(</span><span class="hl-5">&#39;https://mainnet.infura.io&#39;</span><span class="hl-0">)</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">seaport</span><span class="hl-0"> = </span><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-7">OpenSeaPort</span><span class="hl-0">(</span><span class="hl-4">provider</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-4">networkName:</span><span class="hl-0"> </span><span class="hl-4">Network</span><span class="hl-0">.</span><span class="hl-4">Main</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">apiKey:</span><span class="hl-0"> </span><span class="hl-6">YOUR_API_KEY</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<h4 id="offer-limits">Offer Limits</h4>
-				<p>Note: The total value of buy orders must not exceed 10000 x wallet balance.</p>
-				<h3 id="making-listings-selling-items">Making Listings / Selling Items</h3>
-				<p>To sell an asset, call <code>createSellOrder</code>. You can do a fixed-price listing, where <code>startAmount</code> is equal to <code>endAmount</code>, or a declining <a href="https://en.wikipedia.org/wiki/Dutch_auction">Dutch auction</a>, where <code>endAmount</code> is lower and the price declines until <code>expirationTime</code> is hit:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-comment">// Expire this auction one day from now.</span>
-<span class="hljs-comment">// Note that we convert from the JavaScript timestamp (milliseconds):</span>
-<span class="hljs-keyword">const</span> expirationTime = <span class="hljs-built_in">Math</span>.round(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span> + <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">24</span>)
+<p><strong>NOTE:</strong> Using the sample Infura provider above won&#39;t let you authorize transactions, which are needed when approving and trading assets and currency. To make transactions, you need a provider with a private key or mnemonic set.</p>
+<p>In a browser with web3 or an extension like <a href="https://metamask.io/">MetaMask</a> or <a href="http://www.meetdapper.com/">Dapper</a>, you can use <code>window.ethereum</code> (or <code>window.web3.currentProvider</code> for legacy mobile web3 browsers) to access the native provider. In a Node.js script, you can follow <a href="https://github.com/ProjectOpenSea/opensea-creatures/blob/master/scripts/sell.js">this example</a> to use a custom mnemonic.</p>
 
-<span class="hljs-keyword">const</span> listing = <span class="hljs-keyword">await</span> seaport.createSellOrder({
-  <span class="hljs-attr">asset</span>: {
-    tokenId,
-    tokenAddress,
-  },
-  accountAddress,
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">3</span>,
-  <span class="hljs-comment">// If `endAmount` is specified, the order will decline in value to that amount until `expirationTime`. Otherwise, it's a fixed-price order:</span>
-  <span class="hljs-attr">endAmount</span>: <span class="hljs-number">0.1</span>,
-  expirationTime
-})
+<a href="#fetching-assets" id="fetching-assets" style="color: inherit; text-decoration: none;">
+  <h3>Fetching Assets</h3>
+</a>
+<p>Assets are items on OpenSea. They can be non-fungible (conforming to standards like ERC721), semi-fungible (like ERC1155 assets), and even fungible (ERC20).</p>
+<p>Assets are represented by the <code>Asset</code> type, defined in TypeScript:</p>
+<pre><code class="language-TypeScript"><span class="hl-1">/**</span><br/><span class="hl-1"> * Simple, unannotated non-fungible asset spec</span><br/><span class="hl-1"> */</span><br/><span class="hl-2">export</span><span class="hl-0"> </span><span class="hl-3">interface</span><span class="hl-0"> </span><span class="hl-8">Asset</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-1">// The asset&#39;s token ID, or null if ERC-20</span><br/><span class="hl-0">  </span><span class="hl-4">tokenId</span><span class="hl-0">: </span><span class="hl-8">string</span><span class="hl-0"> | </span><span class="hl-8">null</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// The asset&#39;s contract address</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress</span><span class="hl-0">: </span><span class="hl-8">string</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// The Wyvern schema name (defaults to &quot;ERC721&quot;) for this asset</span><br/><span class="hl-0">  </span><span class="hl-4">schemaName</span><span class="hl-0">?: </span><span class="hl-8">WyvernSchemaName</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Optional for ENS names</span><br/><span class="hl-0">  </span><span class="hl-4">name</span><span class="hl-0">?: </span><span class="hl-8">string</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Optional for fungible items</span><br/><span class="hl-0">  </span><span class="hl-4">decimals</span><span class="hl-0">?: </span><span class="hl-8">number</span><br/><span class="hl-0">}</span>
 </code></pre>
-				<p>The units for <code>startAmount</code> and <code>endAmount</code> are Ether, ETH. If you want to specify another ERC-20 token to use, see <a href="#using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</a>.</p>
-				<p>See <a href="#listening-to-events">Listening to Events</a> to respond to the setup transactions that occur the first time a user sells an item.</p>
-				<h4 id="creating-english-auctions">Creating English Auctions</h4>
-				<p>English Auctions are auctions that start at a small amount (we recommend even doing 0!) and increase with every bid. At expiration time, the item sells to the highest bidder.</p>
-				<p>To create an English Auction, create a listing that waits for the highest bid by setting <code>waitForHighestBid</code> to <code>true</code>:</p>
-				<pre><code class="lang-JavaScript">
-<span class="hljs-comment">// Create an auction to receive Wrapped Ether (WETH). See note below.</span>
-<span class="hljs-keyword">const</span> paymentTokenAddress = <span class="hljs-string">"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"</span>
+<p>The <code>Asset</code> type is the minimal type you need for most marketplace actions. <code>WyvernSchemaName</code> is optional. If omitted, most actions will assume you&#39;re referring to a non-fungible, ERC721 asset. Other options include &#39;ERC20&#39; and &#39;ERC1155&#39;. You can import <code>import { WyvernSchemaName } from &quot;opensea-js/lib/types&quot;</code> to get the full range of schemas supported.</p>
+<p>You can fetch an asset using the <code>OpenSeaAPI</code>, which will return an <code>OpenSeaAsset</code> for you (<code>OpenSeaAsset</code> extends <code>Asset</code>):</p>
+<pre><code class="language-TypeScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">asset</span><span class="hl-0">: </span><span class="hl-8">OpenSeaAsset</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getAsset</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress</span><span class="hl-0">, </span><span class="hl-1">// string</span><br/><span class="hl-0">  </span><span class="hl-4">tokenId</span><span class="hl-0">, </span><span class="hl-1">// string | number | null</span><br/><span class="hl-0">})</span>
+</code></pre>
+<p>Note that fungible ERC20 assets have <code>null</code> as their token id.</p>
 
-<span class="hljs-keyword">const</span> startAmount = <span class="hljs-number">0</span> <span class="hljs-comment">// The minimum amount to sell for, in normal units (e.g. ETH)</span>
+<a href="#checking-balances-and-ownerships" id="checking-balances-and-ownerships" style="color: inherit; text-decoration: none;">
+  <h4>Checking Balances and Ownerships</h4>
+</a>
+<p>The nice thing about the <code>Asset</code> type is that it unifies logic between fungibles, non-fungibles, and semi-fungibles.</p>
+<p>Once you have an <code>Asset</code>, you can see how many any account owns, regardless of whether it&#39;s an ERC-20 token or a non-fungible good:</p>
+<pre><code class="language-JavaScript"><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">asset</span><span class="hl-0"> = {</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress:</span><span class="hl-0"> </span><span class="hl-5">&quot;0x06012c8cf97bead5deae237070f9587f8e7a266d&quot;</span><span class="hl-0">, </span><span class="hl-1">// CryptoKitties</span><br/><span class="hl-0">  </span><span class="hl-4">tokenId:</span><span class="hl-0"> </span><span class="hl-5">&quot;1&quot;</span><span class="hl-0">, </span><span class="hl-1">// Token ID</span><br/><span class="hl-0">}</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">balance</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">getAssetBalance</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-1">// string</span><br/><span class="hl-0">  </span><span class="hl-4">asset</span><span class="hl-0">, </span><span class="hl-1">// Asset</span><br/><span class="hl-0">})</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">ownsKitty</span><span class="hl-0"> = </span><span class="hl-4">balance</span><span class="hl-0">.</span><span class="hl-7">greaterThan</span><span class="hl-0">(</span><span class="hl-9">0</span><span class="hl-0">)</span>
+</code></pre>
+<p>You can use this same method for fungible ERC-20 tokens like wrapped ETH (WETH). As a convenience, you can use this fungible wrapper for checking fungible balances:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">balanceOfWETH</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">getTokenBalance</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-1">// string</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress:</span><span class="hl-0"> </span><span class="hl-5">&quot;0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&quot;</span><br/><span class="hl-0">})</span>
+</code></pre>
 
-<span class="hljs-keyword">const</span> auction = <span class="hljs-keyword">await</span> seaport.createSellOrder({
-  <span class="hljs-attr">asset</span>: {
-    tokenId,
-    tokenAddress,
-  },
-  accountAddress,
-  startAmount,
-  expirationTime,
-  paymentTokenAddress,
-  <span class="hljs-attr">waitForHighestBid</span>: <span class="hljs-literal">true</span>
-})
+<a href="#making-offers" id="making-offers" style="color: inherit; text-decoration: none;">
+  <h3>Making Offers</h3>
+</a>
+<p>Once you have your asset, you can do this to make an offer on it:</p>
+<pre><code class="language-JavaScript"><span class="hl-1">// Token ID and smart contract address for a non-fungible token:</span><br/><span class="hl-3">const</span><span class="hl-0"> { </span><span class="hl-6">tokenId</span><span class="hl-0">, </span><span class="hl-6">tokenAddress</span><span class="hl-0"> } = </span><span class="hl-6">YOUR_ASSET</span><br/><span class="hl-1">// The offerer&#39;s wallet address:</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">accountAddress</span><span class="hl-0"> = </span><span class="hl-5">&quot;0x1234...&quot;</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">offer</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createBuyOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-4">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">schemaName</span><span class="hl-0"> </span><span class="hl-1">// WyvernSchemaName. If omitted, defaults to &#39;ERC721&#39;. Other options include &#39;ERC20&#39; and &#39;ERC1155&#39;</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Value of the offer, in units of the payment token (or wrapped ETH if none is specified):</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount:</span><span class="hl-0"> </span><span class="hl-9">1.2</span><span class="hl-0">,</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>Note that auctions aren&#39;t supported with Ether directly due to limitations in Ethereum, so you have to use an ERC20 token, like Wrapped Ether (WETH), a stablecoin like DAI, etc. See <a href="#using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</a> for more info.</p>
-				<h3 id="running-crowdsales">Running Crowdsales</h3>
-				<p>You can now sell items to users <strong>without having to pay gas to mint them</strong>!</p>
-				<p>To create a presale or crowdsale and create batches of sell orders for a single asset factory, first follow the <a href="https://docs.opensea.io/docs/opensea-initial-item-sale-tutorial">tutorial</a> for creating your crowdsale contract.</p>
-				<p>Then call <code>createFactorySellOrders</code> with your factory contract address and asset option identifier, and set <code>numberOfOrders</code> to the number of assets you&#39;d like to let users buy and mint:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-comment">// Expire these auctions one day from now</span>
-<span class="hljs-keyword">const</span> expirationTime = <span class="hljs-built_in">Math</span>.round(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span> + <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">24</span>)
+<p>When you make an offer on an item owned by an OpenSea user, <strong>that user will automatically get an email notifying them with the offer amount</strong>, if it&#39;s above their desired threshold.</p>
 
-<span class="hljs-keyword">const</span> sellOrders = <span class="hljs-keyword">await</span> seaport.createFactorySellOrders({
-  <span class="hljs-attr">assetId</span>: ASSET_OPTION_ID,
-  <span class="hljs-attr">factoryAddress</span>: FACTORY_CONTRACT_ADDRESS,
-  accountAddress,
-  startAmount,
-  endAmount,
-  expirationTime,
-  <span class="hljs-comment">// Will create 100 sell orders in parallel batches of 10, to speed things up:</span>
-  <span class="hljs-attr">numberOfOrders</span>: <span class="hljs-number">100</span>
-})
+<a href="#bidding-on-multiple-assets" id="bidding-on-multiple-assets" style="color: inherit; text-decoration: none;">
+  <h4>Bidding on Multiple Assets</h4>
+</a>
+<p>You can also make an offer on a bundle of assets. This could also be used for creating a bounty for whoever can acquire a list of items. Here&#39;s how you do it:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">assets</span><span class="hl-0"> = </span><span class="hl-6">YOUR_ASSETS</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">offer</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createBundleBuyOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">assets</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount:</span><span class="hl-0"> </span><span class="hl-9">2.4</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Optional expiration time for the order, in Unix time (seconds):</span><br/><span class="hl-0">  </span><span class="hl-4">expirationTime:</span><span class="hl-0"> </span><span class="hl-8">Math</span><span class="hl-0">.</span><span class="hl-7">round</span><span class="hl-0">(</span><span class="hl-8">Date</span><span class="hl-0">.</span><span class="hl-7">now</span><span class="hl-0">() / </span><span class="hl-9">1000</span><span class="hl-0"> + </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">24</span><span class="hl-0">) </span><span class="hl-1">// One day from now</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>Here&#39;s an <a href="https://github.com/ProjectOpenSea/opensea-creatures/blob/master/scripts/sell.js">example script</a> you can use to mint items.</p>
-				<p><strong>NOTE:</strong> If <code>numberOfOrders</code> is greater than 5, we will automatically batch them in groups of 5 so you can post orders in parallel. Requires an <code>apiKey</code> to be set during seaport initialization in order to not be throttled by the API.</p>
-				<p>Games using this method include <a href="https://opensea.io/assets/coins&amp;steelfounderssale">Coins &amp; Steel</a> and a couple in stealth :) If you have questions or want support, contact us at <a href="mailto:contact@opensea.io">contact@opensea.io</a> (or in <a href="https://discord.gg/ga8EJbv">Discord</a>).</p>
-				<h3 id="fetching-orders">Fetching Orders</h3>
-				<p>To retrieve a list of offers and auction on an asset, you can use an instance of the <code>OpenSeaAPI</code> exposed on the client. Parameters passed into API filter objects are underscored instead of camel-cased, similar to the main <a href="https://docs.opensea.io/v1.0/reference">OpenSea API parameters</a>:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">import</span> { OrderSide } <span class="hljs-keyword">from</span> <span class="hljs-string">'opensea-js/lib/types'</span>
+<p>When you bid on multiple assets, an email will be sent to the owner if a bundle exists on OpenSea that contains the assets. In the future, OpenSea will send emails to multiple owners if the assets aren&#39;t all owned by the same wallet.</p>
 
-<span class="hljs-comment">// Get offers (bids), a.k.a. orders where `side == 0`</span>
-<span class="hljs-keyword">const</span> { orders, count } = <span class="hljs-keyword">await</span> seaport.api.getOrders({
-  <span class="hljs-attr">asset_contract_address</span>: tokenAddress,
-  <span class="hljs-attr">token_id</span>: token_id,
-  <span class="hljs-attr">side</span>: OrderSide.Buy
-})
+<a href="#bidding-on-ens-short-name-auctions" id="bidding-on-ens-short-name-auctions" style="color: inherit; text-decoration: none;">
+  <h4>Bidding on ENS Short Name Auctions</h4>
+</a>
+<p>The Ethereum Name Service (ENS) is auctioning short (3-6 character) names that can be used for labeling wallet addresses and more. Learn more on the <a href="https://opensea.io/ens">ENS FAQ</a>.</p>
+<p>To bid, you must use the ENS Short Name schema:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-6">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Token address should be `0xfac7bea255a6990f749363002136af6556b31e04` on mainnet</span><br/><span class="hl-0">  </span><span class="hl-6">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Name must have `.eth` at the end and correspond with the tokenId</span><br/><span class="hl-0">  </span><span class="hl-6">name</span><br/><span class="hl-0">} = </span><span class="hl-6">ENS_ASSET</span><span class="hl-0"> </span><span class="hl-1">// You can get an ENS asset from `seaport.api.getAsset(...)`</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">offer</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createBuyOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-4">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">name</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-1">// Only needed for the short-name auction, not ENS names</span><br/><span class="hl-0">    </span><span class="hl-1">// that have been sold once already:</span><br/><span class="hl-0">    </span><span class="hl-4">schemaName:</span><span class="hl-0"> </span><span class="hl-5">&quot;ENSShortNameAuction&quot;</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">  </span><span class="hl-1">// Your wallet address (the bidder&#39;s address):</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress:</span><span class="hl-0"> </span><span class="hl-5">&quot;0x1234...&quot;</span><br/><span class="hl-0">  </span><span class="hl-1">// Value of the offer, in wrapped ETH:</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount</span><span class="hl-0">: </span><span class="hl-9">1.2</span><span class="hl-0">,</span><br/><span class="hl-0">})</span>
+</code></pre>
 
-<span class="hljs-comment">// Get page 2 of all auctions, a.k.a. orders where `side == 1`</span>
-<span class="hljs-keyword">const</span> { orders, count } = <span class="hljs-keyword">await</span> seaport.api.getOrders({
-  <span class="hljs-attr">asset_contract_address</span>: tokenAddress,
-  <span class="hljs-attr">token_id</span>: token_id,
-  <span class="hljs-attr">side</span>: OrderSide.Sell
-}, <span class="hljs-number">2</span>)
-</code></pre>
-				<p>Note that the listing price of an asset is equal to the <code>currentPrice</code> of the <strong>lowest valid sell order</strong> on the asset. Users can lower their listing price without invalidating previous sell orders, so all get shipped down until they&#39;re canceled, or one is fulfilled.</p>
-				<p>To learn more about signatures, makers, takers, listingTime vs createdTime and other kinds of order terminology, please read the <a href="https://docs.opensea.io/reference#terminology"><strong>Terminology Section</strong></a> of the API Docs.</p>
-				<p>The available API filters for the orders endpoint is documented in the <code>OrderJSON</code> interface below, but see the main <a href="https://docs.opensea.io/reference#reference-getting-started">API Docs</a> for a playground, along with more up-to-date and detailed explanantions.</p>
-				<pre><code class="lang-TypeScript"><span class="hljs-comment">/**
-   * Attrs used by orderbook to make queries easier
-   * More to come soon!
-   */</span>
-  maker?: <span class="hljs-built_in">string</span>, <span class="hljs-comment">// Address of the order's creator</span>
-  taker?: <span class="hljs-built_in">string</span>, <span class="hljs-comment">// The null address if anyone is allowed to take the order</span>
-  side?: OrderSide, <span class="hljs-comment">// 0 for offers, 1 for auctions</span>
-  owner?: <span class="hljs-built_in">string</span>, <span class="hljs-comment">// Address of owner of the order's asset</span>
-  sale_kind?: SaleKind, <span class="hljs-comment">// 0 for fixed-price, 1 for Dutch auctions</span>
-  asset_contract_address?: <span class="hljs-built_in">string</span>, <span class="hljs-comment">// Contract address for order's asset</span>
-  token_id?: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>,
-  token_ids?: <span class="hljs-built_in">Array</span>&lt;<span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>&gt;,
-  listed_after?: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>, <span class="hljs-comment">// This means listing_time &gt; value in seconds</span>
-  listed_before?: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>, <span class="hljs-comment">// This means listing_time &lt;= value in seconds</span>
+<a href="#offer-limits" id="offer-limits" style="color: inherit; text-decoration: none;">
+  <h4>Offer Limits</h4>
+</a>
+<p>Note: The total value of buy orders must not exceed 10000 x wallet balance.</p>
 
-  <span class="hljs-comment">// For pagination</span>
-  limit?: <span class="hljs-built_in">number</span>,
-  offset?: <span class="hljs-built_in">number</span>,
+<a href="#making-listings--selling-items" id="making-listings--selling-items" style="color: inherit; text-decoration: none;">
+  <h3>Making Listings / Selling Items</h3>
+</a>
+<p>To sell an asset, call <code>createSellOrder</code>. You can do a fixed-price listing, where <code>startAmount</code> is equal to <code>endAmount</code>, or a declining <a href="https://en.wikipedia.org/wiki/Dutch_auction">Dutch auction</a>, where <code>endAmount</code> is lower and the price declines until <code>expirationTime</code> is hit:</p>
+<pre><code class="language-JavaScript"><span class="hl-1">// Expire this auction one day from now.</span><br/><span class="hl-1">// Note that we convert from the JavaScript timestamp (milliseconds):</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">expirationTime</span><span class="hl-0"> = </span><span class="hl-8">Math</span><span class="hl-0">.</span><span class="hl-7">round</span><span class="hl-0">(</span><span class="hl-8">Date</span><span class="hl-0">.</span><span class="hl-7">now</span><span class="hl-0">() / </span><span class="hl-9">1000</span><span class="hl-0"> + </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">24</span><span class="hl-0">)</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">listing</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createSellOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-4">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount:</span><span class="hl-0"> </span><span class="hl-9">3</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// If `endAmount` is specified, the order will decline in value to that amount until `expirationTime`. Otherwise, it&#39;s a fixed-price order:</span><br/><span class="hl-0">  </span><span class="hl-4">endAmount:</span><span class="hl-0"> </span><span class="hl-9">0.1</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">expirationTime</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<h3 id="buying-items">Buying Items</h3>
-				<p>To buy an item , you need to <strong>fulfill a sell order</strong>. To do that, it&#39;s just one call:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> order = <span class="hljs-keyword">await</span> seaport.api.getOrder({ <span class="hljs-attr">side</span>: OrderSide.Sell, ... })
-<span class="hljs-keyword">const</span> accountAddress = <span class="hljs-string">"0x..."</span> <span class="hljs-comment">// The buyer's wallet address, also the taker</span>
-<span class="hljs-keyword">const</span> transactionHash = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.props.seaport.fulfillOrder({ order, accountAddress })
-</code></pre>
-				<p>Note that the <code>fulfillOrder</code> promise resolves when the transaction has been confirmed and mined to the blockchain. To get the transaction hash before this happens, add an event listener (see <a href="#listening-to-events">Listening to Events</a>) for the <code>TransactionCreated</code> event.</p>
-				<p>If the order is a sell order (<code>order.side === OrderSide.Sell</code>), the taker is the <em>buyer</em> and this will prompt the buyer to pay for the item(s).</p>
-				<h3 id="accepting-offers">Accepting Offers</h3>
-				<p>Similar to fulfilling sell orders above, you need to fulfill a buy order on an item you own to receive the tokens in the offer.</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> order = <span class="hljs-keyword">await</span> seaport.api.getOrder({ <span class="hljs-attr">side</span>: OrderSide.Buy, ... })
-<span class="hljs-keyword">const</span> accountAddress = <span class="hljs-string">"0x..."</span> <span class="hljs-comment">// The owner's wallet address, also the taker</span>
-<span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.props.seaport.fulfillOrder({ order, accountAddress })
-</code></pre>
-				<p>If the order is a buy order (<code>order.side === OrderSide.Buy</code>), then the taker is the <em>owner</em> and this will prompt the owner to exchange their item(s) for whatever is being offered in return. See <a href="#listening-to-events">Listening to Events</a> below to respond to the setup transactions that occur the first time a user accepts a bid.</p>
-				<h3 id="transferring-items-or-coins-gifting-">Transferring Items or Coins (Gifting)</h3>
-				<p>A handy feature in OpenSea.js is the ability to transfer any supported asset (fungible or non-fungible tokens) in one line of JavaScript.</p>
-				<p>To transfer an ERC-721 asset or an ERC-1155 asset, it&#39;s just one call:</p>
-				<pre><code class="lang-JavaScript">
-<span class="hljs-keyword">const</span> transactionHash = <span class="hljs-keyword">await</span> seaport.transfer({
-  <span class="hljs-attr">asset</span>: { tokenId, tokenAddress },
-  fromAddress, <span class="hljs-comment">// Must own the asset</span>
-  toAddress
-})
-</code></pre>
-				<p>For fungible ERC-1155 assets, you can set <code>schemaName</code> to &quot;ERC1155&quot; and pass a <code>quantity</code> in to transfer multiple at once:</p>
-				<pre><code class="lang-JavaScript">
-<span class="hljs-keyword">const</span> transactionHash = <span class="hljs-keyword">await</span> seaport.transfer({
-  <span class="hljs-attr">asset</span>: {
-    tokenId,
-    tokenAddress,
-    <span class="hljs-attr">schemaName</span>: <span class="hljs-string">"ERC1155"</span>
-  },
-  fromAddress, <span class="hljs-comment">// Must own the asset</span>
-  toAddress,
-  <span class="hljs-attr">quantity</span>: <span class="hljs-number">2</span>,
-})
-</code></pre>
-				<p>To transfer fungible assets without token IDs, like ERC20 tokens, you can pass in an <code>OpenSeaFungibleToken</code> as the <code>asset</code>, set <code>schemaName</code> to &quot;ERC20&quot;, and include <code>quantity</code> in base units (e.g. wei) to indicate how many.</p>
-				<p>Example for transfering 2 DAI ($2) to another address:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> paymentToken = (<span class="hljs-keyword">await</span> seaport.api.getPaymentTokens({ <span class="hljs-attr">symbol</span>: <span class="hljs-string">'DAI'</span>})).tokens[<span class="hljs-number">0</span>]
-<span class="hljs-keyword">const</span> quantity = <span class="hljs-keyword">new</span> BigNumber(<span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, paymentToken.decimals)).times(<span class="hljs-number">2</span>)
-<span class="hljs-keyword">const</span> transactionHash = <span class="hljs-keyword">await</span> seaport.transfer({
-  <span class="hljs-attr">asset</span>: {
-    <span class="hljs-attr">tokenId</span>: <span class="hljs-literal">null</span>,
-    <span class="hljs-attr">tokenAddress</span>: paymentToken.address,
-    <span class="hljs-attr">schemaName</span>: <span class="hljs-string">"ERC20"</span>
-  },
-  fromAddress, <span class="hljs-comment">// Must own the tokens</span>
-  toAddress,
-  quantity
-})
-</code></pre>
-				<p>For more information, check out the documentation for WyvernSchemas on <a href="https://projectopensea.github.io/opensea-js/">https://projectopensea.github.io/opensea-js/</a>.</p>
-				<h2 id="advanced">Advanced</h2>
-				<p>Interested in purchasing for users server-side or with a bot, making bundling items together, scheduling future orders, or making bids in different ERC-20 tokens? OpenSea.js can help with that.</p>
-				<h3 id="scheduling-future-listings">Scheduling Future Listings</h3>
-				<p>You can create sell orders that aren&#39;t fulfillable until a future date. Just pass in a <code>listingTime</code> (a UTC timestamp in seconds) to your seaport instance:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> auction = <span class="hljs-keyword">await</span> seaport.createSellOrder({
-  tokenAddress,
-  tokenId,
-  accountAddress,
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">listingTime</span>: <span class="hljs-built_in">Math</span>.round(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span> + <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">24</span>) <span class="hljs-comment">// One day from now</span>
-})
-</code></pre>
-				<h3 id="purchasing-items-for-other-users">Purchasing Items for Other Users</h3>
-				<p>You can buy and transfer an item to someone else in one step! Just pass the <code>recipientAddress</code> parameter:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> order = <span class="hljs-keyword">await</span> seaport.api.getOrder({ <span class="hljs-attr">side</span>: OrderSide.Sell, ... })
-<span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.props.seaport.fulfillOrder({
-  order,
-  accountAddress, <span class="hljs-comment">// The address of your wallet, which will sign the transaction</span>
-  recipientAddress <span class="hljs-comment">// The address of the recipient, i.e. the wallet you're purchasing on behalf of</span>
-})
-</code></pre>
-				<p>If the order is a sell order (<code>order.side === OrderSide.Sell</code>), the taker is the <em>buyer</em> and this will prompt the buyer to pay for the item(s) but send them to the <code>recipientAddress</code>. If the order is a buy order ( <code>OrderSide.Buy</code>), the taker is the <em>seller</em> but the bid amount be sent to the <code>recipientAddress</code>.</p>
-				<h3 id="bulk-transfers">Bulk Transfers</h3>
-				<p>A handy feature in OpenSea.js is the ability to transfer multiple items at once in a single transaction. This works by grouping together as many <code>transferFrom</code> calls as the Ethereum gas limit allows, which is usually under 30 items, for most item contracts.</p>
-				<p>To make a bulk transfer, it&#39;s just one call:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> assets: <span class="hljs-built_in">Array</span>&lt;{<span class="hljs-attr">tokenId</span>: string; tokenAddress: string}&gt; = [...]
+<p>The units for <code>startAmount</code> and <code>endAmount</code> are Ether, ETH. If you want to specify another ERC-20 token to use, see <a href="#using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</a>.</p>
+<p>See <a href="#listening-to-events">Listening to Events</a> to respond to the setup transactions that occur the first time a user sells an item.</p>
 
-<span class="hljs-keyword">const</span> transactionHash = <span class="hljs-keyword">await</span> seaport.transferAll({
-  assets,
-  fromAddress, <span class="hljs-comment">// Must own all the assets</span>
-  toAddress
-})
+<a href="#creating-english-auctions" id="creating-english-auctions" style="color: inherit; text-decoration: none;">
+  <h4>Creating English Auctions</h4>
+</a>
+<p>English Auctions are auctions that start at a small amount (we recommend even doing 0!) and increase with every bid. At expiration time, the item sells to the highest bidder.</p>
+<p>To create an English Auction, create a listing that waits for the highest bid by setting <code>waitForHighestBid</code> to <code>true</code>:</p>
+<pre><code class="language-JavaScript"><br/><span class="hl-1">// Create an auction to receive Wrapped Ether (WETH). See note below.</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">paymentTokenAddress</span><span class="hl-0"> = </span><span class="hl-5">&quot;0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&quot;</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">startAmount</span><span class="hl-0"> = </span><span class="hl-9">0</span><span class="hl-0"> </span><span class="hl-1">// The minimum amount to sell for, in normal units (e.g. ETH)</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">auction</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createSellOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-4">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">expirationTime</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">paymentTokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">waitForHighestBid:</span><span class="hl-0"> </span><span class="hl-3">true</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>This will automatically approve the assets for trading and confirm the transaction for sending them.</p>
-				<h3 id="creating-bundles">Creating Bundles</h3>
-				<p>You can also create bundles of assets to sell at the same time! If the owner has approved all the assets in the bundle already, only a signature is needed to create it.</p>
-				<p>To make a bundle, it&#39;s just one call:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> assets: <span class="hljs-built_in">Array</span>&lt;{<span class="hljs-attr">tokenId</span>: string; tokenAddress: string}&gt; = [...]
+<p>Note that auctions aren&#39;t supported with Ether directly due to limitations in Ethereum, so you have to use an ERC20 token, like Wrapped Ether (WETH), a stablecoin like DAI, etc. See <a href="#using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</a> for more info.</p>
 
-<span class="hljs-keyword">const</span> bundle = <span class="hljs-keyword">await</span> seaport.createBundleSellOrder({
-  bundleName, bundleDescription, bundleExternalLink,
-  assets, accountAddress, startAmount, endAmount,
-  expirationTime, paymentTokenAddress
-})
+<a href="#running-crowdsales" id="running-crowdsales" style="color: inherit; text-decoration: none;">
+  <h3>Running Crowdsales</h3>
+</a>
+<p>You can now sell items to users <strong>without having to pay gas to mint them</strong>!</p>
+<p>To create a presale or crowdsale and create batches of sell orders for a single asset factory, first follow the <a href="https://docs.opensea.io/docs/opensea-initial-item-sale-tutorial">tutorial</a> for creating your crowdsale contract.</p>
+<p>Then call <code>createFactorySellOrders</code> with your factory contract address and asset option identifier, and set <code>numberOfOrders</code> to the number of assets you&#39;d like to let users buy and mint:</p>
+<pre><code class="language-JavaScript"><span class="hl-1">// Expire these auctions one day from now</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">expirationTime</span><span class="hl-0"> = </span><span class="hl-8">Math</span><span class="hl-0">.</span><span class="hl-7">round</span><span class="hl-0">(</span><span class="hl-8">Date</span><span class="hl-0">.</span><span class="hl-7">now</span><span class="hl-0">() / </span><span class="hl-9">1000</span><span class="hl-0"> + </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">24</span><span class="hl-0">)</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">sellOrders</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createFactorySellOrders</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">assetId:</span><span class="hl-0"> </span><span class="hl-6">ASSET_OPTION_ID</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">factoryAddress:</span><span class="hl-0"> </span><span class="hl-6">FACTORY_CONTRACT_ADDRESS</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">endAmount</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">expirationTime</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-1">// Will create 100 sell orders in parallel batches of 10, to speed things up:</span><br/><span class="hl-0">  </span><span class="hl-4">numberOfOrders:</span><span class="hl-0"> </span><span class="hl-9">100</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>The parameters <code>bundleDescription</code>, <code>bundleExternalLink</code>, and <code>expirationTime</code> are optional, and <code>endAmount</code> can equal <code>startAmount</code>, similar to the normal <code>createSellOrder</code> functionality.</p>
-				<p>The parameter <code>paymentTokenAddress</code> is the address of the ERC-20 token to accept in return. If it&#39;s <code>undefined</code> or <code>null</code>, the amount is assumed to be in Ether.</p>
-				<p>Wait what, you can use other currencies than ETH?</p>
-				<h3 id="using-erc-20-tokens-instead-of-ether">Using ERC-20 Tokens Instead of Ether</h3>
-				<p>Here&#39;s an example of listing the Genesis CryptoKitty for $100! No more needing to worry about the exchange rate:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-comment">// Token address for the DAI stablecoin, which is pegged to $1 USD</span>
-<span class="hljs-keyword">const</span> paymentTokenAddress = <span class="hljs-string">"0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"</span>
+<p>Here&#39;s an <a href="https://github.com/ProjectOpenSea/opensea-creatures/blob/master/scripts/sell.js">example script</a> you can use to mint items.</p>
+<p><strong>NOTE:</strong> If <code>numberOfOrders</code> is greater than 5, we will automatically batch them in groups of 5 so you can post orders in parallel. Requires an <code>apiKey</code> to be set during seaport initialization in order to not be throttled by the API.</p>
+<p>Games using this method include <a href="https://opensea.io/assets/coins&amp;steelfounderssale">Coins &amp; Steel</a> and a couple in stealth :) If you have questions or want support, contact us at <a href="mailto:contact@opensea.io">contact@opensea.io</a> (or in <a href="https://discord.gg/ga8EJbv">Discord</a>).</p>
 
-<span class="hljs-comment">// The units for `startAmount` and `endAmount` are now in DAI, so $100 USD</span>
-<span class="hljs-keyword">const</span> auction = <span class="hljs-keyword">await</span> seaport.createSellOrder({
-  <span class="hljs-attr">tokenAddress</span>: <span class="hljs-string">"0x06012c8cf97bead5deae237070f9587f8e7a266d"</span>, <span class="hljs-comment">// CryptoKitties</span>
-  <span class="hljs-attr">tokenId</span>: <span class="hljs-string">"1"</span>, <span class="hljs-comment">// Token ID</span>
-  <span class="hljs-attr">accountAddress</span>: OWNERS_WALLET_ADDRESS,
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">100</span>,
-  paymentTokenAddress
-})
+<a href="#fetching-orders" id="fetching-orders" style="color: inherit; text-decoration: none;">
+  <h3>Fetching Orders</h3>
+</a>
+<p>To retrieve a list of offers and auction on an asset, you can use an instance of the <code>OpenSeaAPI</code> exposed on the client. Parameters passed into API filter objects are underscored instead of camel-cased, similar to the main <a href="https://docs.opensea.io/v1.0/reference">OpenSea API parameters</a>:</p>
+<pre><code class="language-JavaScript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-4">OrderSide</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&#39;opensea-js/lib/types&#39;</span><br/><br/><span class="hl-1">// Get offers (bids), a.k.a. orders where `side == 0`</span><br/><span class="hl-3">const</span><span class="hl-0"> { </span><span class="hl-6">orders</span><span class="hl-0">, </span><span class="hl-6">count</span><span class="hl-0"> } = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getOrders</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset_contract_address:</span><span class="hl-0"> </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">token_id:</span><span class="hl-0"> </span><span class="hl-4">token_id</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">side:</span><span class="hl-0"> </span><span class="hl-4">OrderSide</span><span class="hl-0">.</span><span class="hl-4">Buy</span><br/><span class="hl-0">})</span><br/><br/><span class="hl-1">// Get page 2 of all auctions, a.k.a. orders where `side == 1`</span><br/><span class="hl-3">const</span><span class="hl-0"> { </span><span class="hl-6">orders</span><span class="hl-0">, </span><span class="hl-6">count</span><span class="hl-0"> } = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getOrders</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset_contract_address:</span><span class="hl-0"> </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">token_id:</span><span class="hl-0"> </span><span class="hl-4">token_id</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">side:</span><span class="hl-0"> </span><span class="hl-4">OrderSide</span><span class="hl-0">.</span><span class="hl-4">Sell</span><br/><span class="hl-0">}, </span><span class="hl-9">2</span><span class="hl-0">)</span>
 </code></pre>
-				<p>You can use <code>getPaymentTokens</code> to search for tokens by symbol name. And you can even list all orders for a specific ERC-20 token by querying the API:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">const</span> token = (<span class="hljs-keyword">await</span> seaport.api.getPaymentTokens({ <span class="hljs-attr">symbol</span>: <span class="hljs-string">'MANA'</span>})).tokens[<span class="hljs-number">0</span>]
+<p>Note that the listing price of an asset is equal to the <code>currentPrice</code> of the <strong>lowest valid sell order</strong> on the asset. Users can lower their listing price without invalidating previous sell orders, so all get shipped down until they&#39;re canceled, or one is fulfilled.</p>
+<p>To learn more about signatures, makers, takers, listingTime vs createdTime and other kinds of order terminology, please read the <a href="https://docs.opensea.io/reference#terminology"><strong>Terminology Section</strong></a> of the API Docs.</p>
+<p>The available API filters for the orders endpoint is documented in the <code>OrderJSON</code> interface below, but see the main <a href="https://docs.opensea.io/reference#reference-getting-started">API Docs</a> for a playground, along with more up-to-date and detailed explanantions.</p>
+<pre><code class="language-TypeScript"><span class="hl-1">/**</span><br/><span class="hl-1">   * Attrs used by orderbook to make queries easier</span><br/><span class="hl-1">   * More to come soon!</span><br/><span class="hl-1">   */</span><br/><span class="hl-0">  </span><span class="hl-4">maker</span><span class="hl-0">?: </span><span class="hl-4">string</span><span class="hl-0">, </span><span class="hl-1">// Address of the order&#39;s creator</span><br/><span class="hl-0">  </span><span class="hl-4">taker</span><span class="hl-0">?: </span><span class="hl-4">string</span><span class="hl-0">, </span><span class="hl-1">// The null address if anyone is allowed to take the order</span><br/><span class="hl-0">  </span><span class="hl-4">side</span><span class="hl-0">?: </span><span class="hl-4">OrderSide</span><span class="hl-0">, </span><span class="hl-1">// 0 for offers, 1 for auctions</span><br/><span class="hl-0">  </span><span class="hl-4">owner</span><span class="hl-0">?: </span><span class="hl-4">string</span><span class="hl-0">, </span><span class="hl-1">// Address of owner of the order&#39;s asset</span><br/><span class="hl-0">  </span><span class="hl-4">sale_kind</span><span class="hl-0">?: </span><span class="hl-4">SaleKind</span><span class="hl-0">, </span><span class="hl-1">// 0 for fixed-price, 1 for Dutch auctions</span><br/><span class="hl-0">  </span><span class="hl-4">asset_contract_address</span><span class="hl-0">?: </span><span class="hl-4">string</span><span class="hl-0">, </span><span class="hl-1">// Contract address for order&#39;s asset</span><br/><span class="hl-0">  </span><span class="hl-4">token_id</span><span class="hl-0">?: </span><span class="hl-4">number</span><span class="hl-0"> | </span><span class="hl-4">string</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">token_ids</span><span class="hl-0">?: </span><span class="hl-8">Array</span><span class="hl-0">&lt;</span><span class="hl-4">number</span><span class="hl-0"> | </span><span class="hl-4">string</span><span class="hl-0">&gt;,</span><br/><span class="hl-0">  </span><span class="hl-4">listed_after</span><span class="hl-0">?: </span><span class="hl-4">number</span><span class="hl-0"> | </span><span class="hl-4">string</span><span class="hl-0">, </span><span class="hl-1">// This means listing_time &gt; value in seconds</span><br/><span class="hl-0">  </span><span class="hl-4">listed_before</span><span class="hl-0">?: </span><span class="hl-4">number</span><span class="hl-0"> | </span><span class="hl-4">string</span><span class="hl-0">, </span><span class="hl-1">// This means listing_time &lt;= value in seconds</span><br/><br/><span class="hl-0">  </span><span class="hl-1">// For pagination</span><br/><span class="hl-0">  </span><span class="hl-4">limit</span><span class="hl-0">?: </span><span class="hl-4">number</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">offset</span><span class="hl-0">?: </span><span class="hl-4">number</span><span class="hl-0">,</span>
+</code></pre>
 
-<span class="hljs-keyword">const</span> order = <span class="hljs-keyword">await</span> seaport.api.getOrders({
-  <span class="hljs-attr">side</span>: OrderSide.Sell,
-  <span class="hljs-attr">payment_token_address</span>: token.address
-})
+<a href="#buying-items" id="buying-items" style="color: inherit; text-decoration: none;">
+  <h3>Buying Items</h3>
+</a>
+<p>To buy an item , you need to <strong>fulfill a sell order</strong>. To do that, it&#39;s just one call:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">order</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getOrder</span><span class="hl-0">({ </span><span class="hl-4">side:</span><span class="hl-0"> </span><span class="hl-4">OrderSide</span><span class="hl-0">.</span><span class="hl-4">Sell</span><span class="hl-0">, ... })</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">accountAddress</span><span class="hl-0"> = </span><span class="hl-5">&quot;0x...&quot;</span><span class="hl-0"> </span><span class="hl-1">// The buyer&#39;s wallet address, also the taker</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">transactionHash</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-3">this</span><span class="hl-0">.</span><span class="hl-4">props</span><span class="hl-0">.</span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">fulfillOrder</span><span class="hl-0">({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span>
 </code></pre>
-				<p><strong>Fun note:</strong> soon, all ERC-20 tokens will be allowed! This will mean you can create crazy offers on crypto collectibles <strong>using your own ERC-20 token</strong>. However, opensea.io will only display offers and auctions in ERC-20 tokens that it knows about, optimizing the user experience of order takers. Orders made with the following tokens will be shown on OpenSea:</p>
-				<ul>
-					<li>MANA, Decentraland&#39;s currency: <a href="https://etherscan.io/token/0x0f5d2fb29fb7d3cfee444a200298f468908cc942">https://etherscan.io/token/0x0f5d2fb29fb7d3cfee444a200298f468908cc942</a></li>
-					<li>DAI, Maker&#39;s stablecoin, pegged to $1 USD: <a href="https://etherscan.io/token/0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359">https://etherscan.io/token/0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359</a></li>
-					<li>And tons more! See the &quot;Currencies&quot; list in the sidebar on <a href="https://opensea.io/assets">https://opensea.io/assets</a> for a full list, or contact us to add yours: <a href="https://discord.gg/ga8EJbv">Discord</a></li>
-				</ul>
-				<h3 id="private-auctions">Private Auctions</h3>
-				<p>Now you can make auctions and listings that can only be fulfilled by an address or email of your choosing. This allows you to negotiate a price in some channel and sell for your chosen price on OpenSea, <strong>without having to trust that the counterparty will abide by your terms!</strong></p>
-				<p>Here&#39;s an example of listing a Decentraland parcel for 10 ETH with a specific buyer address allowed to take it. No more needing to worry about whether they&#39;ll give you enough back!</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-comment">// Address allowed to buy from you</span>
-<span class="hljs-keyword">const</span> buyerAddress = <span class="hljs-string">"0x123..."</span>
+<p>Note that the <code>fulfillOrder</code> promise resolves when the transaction has been confirmed and mined to the blockchain. To get the transaction hash before this happens, add an event listener (see <a href="#listening-to-events">Listening to Events</a>) for the <code>TransactionCreated</code> event.</p>
+<p>If the order is a sell order (<code>order.side === OrderSide.Sell</code>), the taker is the <em>buyer</em> and this will prompt the buyer to pay for the item(s).</p>
 
-<span class="hljs-keyword">const</span> listing = <span class="hljs-keyword">await</span> seaport.createSellOrder({
-  <span class="hljs-attr">tokenAddress</span>: <span class="hljs-string">"0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"</span>, <span class="hljs-comment">// Decentraland</span>
-  <span class="hljs-attr">tokenId</span>: <span class="hljs-string">"115792089237316195423570985008687907832853042650384256231655107562007036952461"</span>, <span class="hljs-comment">// Token ID</span>
-  <span class="hljs-attr">accountAddress</span>: OWNERS_WALLET_ADDRESS,
-  <span class="hljs-attr">startAmount</span>: <span class="hljs-number">10</span>,
-  buyerAddress
-})
+<a href="#accepting-offers" id="accepting-offers" style="color: inherit; text-decoration: none;">
+  <h3>Accepting Offers</h3>
+</a>
+<p>Similar to fulfilling sell orders above, you need to fulfill a buy order on an item you own to receive the tokens in the offer.</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">order</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getOrder</span><span class="hl-0">({ </span><span class="hl-4">side:</span><span class="hl-0"> </span><span class="hl-4">OrderSide</span><span class="hl-0">.</span><span class="hl-4">Buy</span><span class="hl-0">, ... })</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">accountAddress</span><span class="hl-0"> = </span><span class="hl-5">&quot;0x...&quot;</span><span class="hl-0"> </span><span class="hl-1">// The owner&#39;s wallet address, also the taker</span><br/><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-3">this</span><span class="hl-0">.</span><span class="hl-4">props</span><span class="hl-0">.</span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">fulfillOrder</span><span class="hl-0">({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span>
 </code></pre>
-				<h3 id="sharing-sale-fees-with-opensea">Sharing Sale Fees with OpenSea</h3>
-				<p>We share fees for successful sales with game developers, relayers, and affiliates using the OpenSea orderbook. Developers can customize the fee amount to apply to buyers and/or sellers.</p>
-				<p>See <a href="#affiliate-program">Affiliate Program</a> above for how to register referrers for sales.</p>
-				<p>More information will appear here when our redesigned affiliate program is ready. In the meantime, contact us at <a href="mailto:contact@opensea.io">contact@opensea.io</a> (or in <a href="https://discord.gg/ga8EJbv">Discord</a>), or use our legacy affiliate program at <a href="https://opensea.io/account#referrals">https://opensea.io/account#referrals</a>.</p>
-				<h3 id="listening-to-events">Listening to Events</h3>
-				<p>Events are fired whenever transactions or orders are being created, and when transactions return receipts from recently mined blocks on the Ethereum blockchain.</p>
-				<p>Our recommendation is that you &quot;forward&quot; OpenSea events to your own store or state management system. Here&#39;s an example of doing that with a Redux action:</p>
-				<pre><code class="lang-JavaScript"><span class="hljs-keyword">import</span> { EventType } <span class="hljs-keyword">from</span> <span class="hljs-string">'opensea-js'</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> ActionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">'./index'</span>
-<span class="hljs-keyword">import</span> { openSeaPort } <span class="hljs-keyword">from</span> <span class="hljs-string">'../globalSingletons'</span>
+<p>If the order is a buy order (<code>order.side === OrderSide.Buy</code>), then the taker is the <em>owner</em> and this will prompt the owner to exchange their item(s) for whatever is being offered in return. See <a href="#listening-to-events">Listening to Events</a> below to respond to the setup transactions that occur the first time a user accepts a bid.</p>
 
-<span class="hljs-comment">// ...</span>
+<a href="#transferring-items-or-coins-gifting" id="transferring-items-or-coins-gifting" style="color: inherit; text-decoration: none;">
+  <h3>Transferring Items or Coins (Gifting)</h3>
+</a>
+<p>A handy feature in OpenSea.js is the ability to transfer any supported asset (fungible or non-fungible tokens) in one line of JavaScript.</p>
+<p>To transfer an ERC-721 asset or an ERC-1155 asset, it&#39;s just one call:</p>
+<pre><code class="language-JavaScript"><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">transactionHash</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">transfer</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> { </span><span class="hl-4">tokenId</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0"> },</span><br/><span class="hl-0">  </span><span class="hl-4">fromAddress</span><span class="hl-0">, </span><span class="hl-1">// Must own the asset</span><br/><span class="hl-0">  </span><span class="hl-4">toAddress</span><br/><span class="hl-0">})</span>
+</code></pre>
+<p>For fungible ERC-1155 assets, you can set <code>schemaName</code> to &quot;ERC1155&quot; and pass a <code>quantity</code> in to transfer multiple at once:</p>
+<pre><code class="language-JavaScript"><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">transactionHash</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">transfer</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-4">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">schemaName:</span><span class="hl-0"> </span><span class="hl-5">&quot;ERC1155&quot;</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">  </span><span class="hl-4">fromAddress</span><span class="hl-0">, </span><span class="hl-1">// Must own the asset</span><br/><span class="hl-0">  </span><span class="hl-4">toAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">quantity:</span><span class="hl-0"> </span><span class="hl-9">2</span><span class="hl-0">,</span><br/><span class="hl-0">})</span>
+</code></pre>
+<p>To transfer fungible assets without token IDs, like ERC20 tokens, you can pass in an <code>OpenSeaFungibleToken</code> as the <code>asset</code>, set <code>schemaName</code> to &quot;ERC20&quot;, and include <code>quantity</code> in base units (e.g. wei) to indicate how many.</p>
+<p>Example for transfering 2 DAI ($2) to another address:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">paymentToken</span><span class="hl-0"> = (</span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getPaymentTokens</span><span class="hl-0">({ </span><span class="hl-4">symbol:</span><span class="hl-0"> </span><span class="hl-5">&#39;DAI&#39;</span><span class="hl-0">})).</span><span class="hl-4">tokens</span><span class="hl-0">[</span><span class="hl-9">0</span><span class="hl-0">]</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">quantity</span><span class="hl-0"> = </span><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-7">BigNumber</span><span class="hl-0">(</span><span class="hl-8">Math</span><span class="hl-0">.</span><span class="hl-7">pow</span><span class="hl-0">(</span><span class="hl-9">10</span><span class="hl-0">, </span><span class="hl-4">paymentToken</span><span class="hl-0">.</span><span class="hl-4">decimals</span><span class="hl-0">)).</span><span class="hl-7">times</span><span class="hl-0">(</span><span class="hl-9">2</span><span class="hl-0">)</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">transactionHash</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">transfer</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">asset:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-4">tokenId:</span><span class="hl-0"> </span><span class="hl-3">null</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">tokenAddress:</span><span class="hl-0"> </span><span class="hl-4">paymentToken</span><span class="hl-0">.</span><span class="hl-4">address</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-4">schemaName:</span><span class="hl-0"> </span><span class="hl-5">&quot;ERC20&quot;</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">  </span><span class="hl-4">fromAddress</span><span class="hl-0">, </span><span class="hl-1">// Must own the tokens</span><br/><span class="hl-0">  </span><span class="hl-4">toAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">quantity</span><br/><span class="hl-0">})</span>
+</code></pre>
+<p>For more information, check out the documentation for WyvernSchemas on <a href="https://projectopensea.github.io/opensea-js/">https://projectopensea.github.io/opensea-js/</a>.</p>
 
-handleSeaportEvents() {
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dispatch, getState</span>) </span>{
-    openSeaPort.addListener(EventType.TransactionCreated, ({ transactionHash, event }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ transactionHash, event })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.SET_PENDING_TRANSACTION_HASH, <span class="hljs-attr">hash</span>: transactionHash })
-    })
-    openSeaPort.addListener(EventType.TransactionConfirmed, ({ transactionHash, event }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ transactionHash, event })
-      <span class="hljs-comment">// Only reset your exchange UI if we're finishing an order fulfillment or cancellation</span>
-      <span class="hljs-keyword">if</span> (event == EventType.MatchOrders || event == EventType.CancelOrder) {
-        dispatch({ <span class="hljs-attr">type</span>: ActionTypes.RESET_EXCHANGE })
-      }
-    })
-    openSeaPort.addListener(EventType.TransactionDenied, ({ transactionHash, event }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ transactionHash, event })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.RESET_EXCHANGE })
-    })
-    openSeaPort.addListener(EventType.TransactionFailed, ({ transactionHash, event }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ transactionHash, event })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.RESET_EXCHANGE })
-    })
-    openSeaPort.addListener(EventType.InitializeAccount, ({ accountAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ accountAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.INITIALIZE_PROXY })
-    })
-    openSeaPort.addListener(EventType.WrapEth, ({ accountAddress, amount }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ accountAddress, amount })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.WRAP_ETH })
-    })
-    openSeaPort.addListener(EventType.UnwrapWeth, ({ accountAddress, amount }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ accountAddress, amount })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.UNWRAP_WETH })
-    })
-    openSeaPort.addListener(EventType.ApproveCurrency, ({ accountAddress, tokenAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ accountAddress, tokenAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.APPROVE_WETH })
-    })
-    openSeaPort.addListener(EventType.ApproveAllAssets, ({ accountAddress, proxyAddress, tokenAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ accountAddress, proxyAddress, tokenAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.APPROVE_ALL_ASSETS })
-    })
-    openSeaPort.addListener(EventType.ApproveAsset, ({ accountAddress, proxyAddress, tokenAddress, tokenId }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ accountAddress, proxyAddress, tokenAddress, tokenId })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.APPROVE_ASSET })
-    })
-    openSeaPort.addListener(EventType.CreateOrder, ({ order, accountAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ order, accountAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.CREATE_ORDER })
-    })
-    openSeaPort.addListener(EventType.OrderDenied, ({ order, accountAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ order, accountAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.RESET_EXCHANGE })
-    })
-    openSeaPort.addListener(EventType.MatchOrders, ({ buy, sell, accountAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ buy, sell, accountAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.FULFILL_ORDER })
-    })
-    openSeaPort.addListener(EventType.CancelOrder, ({ order, accountAddress }) =&gt; {
-      <span class="hljs-built_in">console</span>.info({ order, accountAddress })
-      dispatch({ <span class="hljs-attr">type</span>: ActionTypes.CANCEL_ORDER })
-    })
-  }
-}
+<a href="#advanced" id="advanced" style="color: inherit; text-decoration: none;">
+  <h2>Advanced</h2>
+</a>
+<p>Interested in purchasing for users server-side or with a bot, making bundling items together, scheduling future orders, or making bids in different ERC-20 tokens? OpenSea.js can help with that.</p>
+
+<a href="#scheduling-future-listings" id="scheduling-future-listings" style="color: inherit; text-decoration: none;">
+  <h3>Scheduling Future Listings</h3>
+</a>
+<p>You can create sell orders that aren&#39;t fulfillable until a future date. Just pass in a <code>listingTime</code> (a UTC timestamp in seconds) to your seaport instance:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">auction</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createSellOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">tokenId</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount:</span><span class="hl-0"> </span><span class="hl-9">1</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">listingTime:</span><span class="hl-0"> </span><span class="hl-8">Math</span><span class="hl-0">.</span><span class="hl-7">round</span><span class="hl-0">(</span><span class="hl-8">Date</span><span class="hl-0">.</span><span class="hl-7">now</span><span class="hl-0">() / </span><span class="hl-9">1000</span><span class="hl-0"> + </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">60</span><span class="hl-0"> * </span><span class="hl-9">24</span><span class="hl-0">) </span><span class="hl-1">// One day from now</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>To remove all listeners and start over, just call <code>seaport.removeAllListeners()</code>.</p>
-				<h2 id="learning-more">Learning More</h2>
-				<p>Auto-generated documentation for each export is available <a href="https://projectopensea.github.io/opensea-js/">here</a>.</p>
-				<p>If you need extra help, support is free! Contact the OpenSea devs. They&#39;re available every day on <a href="https://discord.gg/XjwWYgU">Discord</a> in the <code>#developers</code> channel.</p>
-				<h3 id="example-code">Example Code</h3>
-				<p>Check out the <a href="https://github.com/ProjectOpenSea/ships-log">Ship&#39;s Log</a>, built with the SDK, which shows the recent orders in the OpenSea orderbook.</p>
-				<p>You can view a live demo <a href="https://ships-log.herokuapp.com/">here</a>! Also check out the <a href="https://mythereum.io/marketplace">Mythereum marketplace</a>, which is entirely powered by OpenSea.js.</p>
-				<h2 id="migrating-to-version-1-0">Migrating to version 1.0</h2>
-				<p>See the <a href="CHANGELOG.md">Changelog</a>.</p>
-				<h2 id="development-information">Development Information</h2>
-				<p><strong>Setup</strong></p>
-				<p><a href="https://nodejs.org/en/">Node &gt;= v8.11.2</a> required.</p>
-				<p>Before any development, install the required NPM dependencies:</p>
-				<pre><code class="lang-bash">npm install
+
+<a href="#purchasing-items-for-other-users" id="purchasing-items-for-other-users" style="color: inherit; text-decoration: none;">
+  <h3>Purchasing Items for Other Users</h3>
+</a>
+<p>You can buy and transfer an item to someone else in one step! Just pass the <code>recipientAddress</code> parameter:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">order</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getOrder</span><span class="hl-0">({ </span><span class="hl-4">side:</span><span class="hl-0"> </span><span class="hl-4">OrderSide</span><span class="hl-0">.</span><span class="hl-4">Sell</span><span class="hl-0">, ... })</span><br/><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-3">this</span><span class="hl-0">.</span><span class="hl-4">props</span><span class="hl-0">.</span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">fulfillOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">order</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-1">// The address of your wallet, which will sign the transaction</span><br/><span class="hl-0">  </span><span class="hl-4">recipientAddress</span><span class="hl-0"> </span><span class="hl-1">// The address of the recipient, i.e. the wallet you&#39;re purchasing on behalf of</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>And install TypeScript if you haven&#39;t already:</p>
-				<pre><code class="lang-bash">npm install -g tslint typescript
+<p>If the order is a sell order (<code>order.side === OrderSide.Sell</code>), the taker is the <em>buyer</em> and this will prompt the buyer to pay for the item(s) but send them to the <code>recipientAddress</code>. If the order is a buy order ( <code>OrderSide.Buy</code>), the taker is the <em>seller</em> but the bid amount be sent to the <code>recipientAddress</code>.</p>
+
+<a href="#bulk-transfers" id="bulk-transfers" style="color: inherit; text-decoration: none;">
+  <h3>Bulk Transfers</h3>
+</a>
+<p>A handy feature in OpenSea.js is the ability to transfer multiple items at once in a single transaction. This works by grouping together as many <code>transferFrom</code> calls as the Ethereum gas limit allows, which is usually under 30 items, for most item contracts.</p>
+<p>To make a bulk transfer, it&#39;s just one call:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">assets</span><span class="hl-0">: </span><span class="hl-8">Array</span><span class="hl-0">&lt;{</span><span class="hl-4">tokenId</span><span class="hl-0">: </span><span class="hl-8">string</span><span class="hl-0">; </span><span class="hl-4">tokenAddress</span><span class="hl-0">: </span><span class="hl-8">string</span><span class="hl-0">}&gt; = [...]</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">transactionHash</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">transferAll</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">assets</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">fromAddress</span><span class="hl-0">, </span><span class="hl-1">// Must own all the assets</span><br/><span class="hl-0">  </span><span class="hl-4">toAddress</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p><strong>Build</strong></p>
-				<p>Then, lint and build the library into the <code>lib</code> directory:</p>
-				<pre><code class="lang-bash">npm run build
+<p>This will automatically approve the assets for trading and confirm the transaction for sending them.</p>
+
+<a href="#creating-bundles" id="creating-bundles" style="color: inherit; text-decoration: none;">
+  <h3>Creating Bundles</h3>
+</a>
+<p>You can also create bundles of assets to sell at the same time! If the owner has approved all the assets in the bundle already, only a signature is needed to create it.</p>
+<p>To make a bundle, it&#39;s just one call:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">assets</span><span class="hl-0">: </span><span class="hl-8">Array</span><span class="hl-0">&lt;{</span><span class="hl-4">tokenId</span><span class="hl-0">: </span><span class="hl-8">string</span><span class="hl-0">; </span><span class="hl-4">tokenAddress</span><span class="hl-0">: </span><span class="hl-8">string</span><span class="hl-0">}&gt; = [...]</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">bundle</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createBundleSellOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">bundleName</span><span class="hl-0">, </span><span class="hl-4">bundleDescription</span><span class="hl-0">, </span><span class="hl-4">bundleExternalLink</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">assets</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">startAmount</span><span class="hl-0">, </span><span class="hl-4">endAmount</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">expirationTime</span><span class="hl-0">, </span><span class="hl-4">paymentTokenAddress</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>Or run the tests:</p>
-				<pre><code class="lang-bash">npm <span class="hljs-built_in">test</span>
+<p>The parameters <code>bundleDescription</code>, <code>bundleExternalLink</code>, and <code>expirationTime</code> are optional, and <code>endAmount</code> can equal <code>startAmount</code>, similar to the normal <code>createSellOrder</code> functionality.</p>
+<p>The parameter <code>paymentTokenAddress</code> is the address of the ERC-20 token to accept in return. If it&#39;s <code>undefined</code> or <code>null</code>, the amount is assumed to be in Ether.</p>
+<p>Wait what, you can use other currencies than ETH?</p>
+
+<a href="#using-erc-20-tokens-instead-of-ether" id="using-erc-20-tokens-instead-of-ether" style="color: inherit; text-decoration: none;">
+  <h3>Using ERC-20 Tokens Instead of Ether</h3>
+</a>
+<p>Here&#39;s an example of listing the Genesis CryptoKitty for $100! No more needing to worry about the exchange rate:</p>
+<pre><code class="language-JavaScript"><span class="hl-1">// Token address for the DAI stablecoin, which is pegged to $1 USD</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">paymentTokenAddress</span><span class="hl-0"> = </span><span class="hl-5">&quot;0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359&quot;</span><br/><br/><span class="hl-1">// The units for `startAmount` and `endAmount` are now in DAI, so $100 USD</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">auction</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createSellOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress:</span><span class="hl-0"> </span><span class="hl-5">&quot;0x06012c8cf97bead5deae237070f9587f8e7a266d&quot;</span><span class="hl-0">, </span><span class="hl-1">// CryptoKitties</span><br/><span class="hl-0">  </span><span class="hl-4">tokenId:</span><span class="hl-0"> </span><span class="hl-5">&quot;1&quot;</span><span class="hl-0">, </span><span class="hl-1">// Token ID</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress:</span><span class="hl-0"> </span><span class="hl-6">OWNERS_WALLET_ADDRESS</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount:</span><span class="hl-0"> </span><span class="hl-9">100</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">paymentTokenAddress</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>Note that the tests require access to both Infura and the OpenSea API. The timeout is adjustable via the <code>test</code> script in <code>package.json</code>.</p>
-				<p><strong>Generate Documentation</strong></p>
-				<p>Generate html docs, also available for browsing <a href="https://projectopensea.github.io/opensea-js/">here</a>:</p>
-				<pre><code class="lang-bash">npm run docsHtml
+<p>You can use <code>getPaymentTokens</code> to search for tokens by symbol name. And you can even list all orders for a specific ERC-20 token by querying the API:</p>
+<pre><code class="language-JavaScript"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">token</span><span class="hl-0"> = (</span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getPaymentTokens</span><span class="hl-0">({ </span><span class="hl-4">symbol:</span><span class="hl-0"> </span><span class="hl-5">&#39;MANA&#39;</span><span class="hl-0">})).</span><span class="hl-4">tokens</span><span class="hl-0">[</span><span class="hl-9">0</span><span class="hl-0">]</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">order</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-4">api</span><span class="hl-0">.</span><span class="hl-7">getOrders</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">side:</span><span class="hl-0"> </span><span class="hl-4">OrderSide</span><span class="hl-0">.</span><span class="hl-4">Sell</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">payment_token_address:</span><span class="hl-0"> </span><span class="hl-4">token</span><span class="hl-0">.</span><span class="hl-4">address</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>Or generate markdown docs available for browsing on git repos:</p>
-				<pre><code class="lang-bash">npm run docsMarkdown
+<p><strong>Fun note:</strong> soon, all ERC-20 tokens will be allowed! This will mean you can create crazy offers on crypto collectibles <strong>using your own ERC-20 token</strong>. However, opensea.io will only display offers and auctions in ERC-20 tokens that it knows about, optimizing the user experience of order takers. Orders made with the following tokens will be shown on OpenSea:</p>
+<ul>
+<li>MANA, Decentraland&#39;s currency: <a href="https://etherscan.io/token/0x0f5d2fb29fb7d3cfee444a200298f468908cc942">https://etherscan.io/token/0x0f5d2fb29fb7d3cfee444a200298f468908cc942</a></li>
+<li>DAI, Maker&#39;s stablecoin, pegged to $1 USD: <a href="https://etherscan.io/token/0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359">https://etherscan.io/token/0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359</a></li>
+<li>And tons more! See the &quot;Currencies&quot; list in the sidebar on <a href="https://opensea.io/assets">https://opensea.io/assets</a> for a full list, or contact us to add yours: <a href="https://discord.gg/ga8EJbv">Discord</a></li>
+</ul>
+
+<a href="#private-auctions" id="private-auctions" style="color: inherit; text-decoration: none;">
+  <h3>Private Auctions</h3>
+</a>
+<p>Now you can make auctions and listings that can only be fulfilled by an address or email of your choosing. This allows you to negotiate a price in some channel and sell for your chosen price on OpenSea, <strong>without having to trust that the counterparty will abide by your terms!</strong></p>
+<p>Here&#39;s an example of listing a Decentraland parcel for 10 ETH with a specific buyer address allowed to take it. No more needing to worry about whether they&#39;ll give you enough back!</p>
+<pre><code class="language-JavaScript"><span class="hl-1">// Address allowed to buy from you</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">buyerAddress</span><span class="hl-0"> = </span><span class="hl-5">&quot;0x123...&quot;</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-6">listing</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-4">seaport</span><span class="hl-0">.</span><span class="hl-7">createSellOrder</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-4">tokenAddress:</span><span class="hl-0"> </span><span class="hl-5">&quot;0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d&quot;</span><span class="hl-0">, </span><span class="hl-1">// Decentraland</span><br/><span class="hl-0">  </span><span class="hl-4">tokenId:</span><span class="hl-0"> </span><span class="hl-5">&quot;115792089237316195423570985008687907832853042650384256231655107562007036952461&quot;</span><span class="hl-0">, </span><span class="hl-1">// Token ID</span><br/><span class="hl-0">  </span><span class="hl-4">accountAddress:</span><span class="hl-0"> </span><span class="hl-6">OWNERS_WALLET_ADDRESS</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">startAmount:</span><span class="hl-0"> </span><span class="hl-9">10</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-4">buyerAddress</span><br/><span class="hl-0">})</span>
 </code></pre>
-				<p>Due to a markdown theme typescript issue, <code>docs</code> just generates html docs right now:</p>
-				<pre><code class="lang-bash">npm run docs
+
+<a href="#sharing-sale-fees-with-opensea" id="sharing-sale-fees-with-opensea" style="color: inherit; text-decoration: none;">
+  <h3>Sharing Sale Fees with OpenSea</h3>
+</a>
+<p>We share fees for successful sales with game developers, relayers, and affiliates using the OpenSea orderbook. Developers can customize the fee amount to apply to buyers and/or sellers.</p>
+<p>See <a href="#affiliate-program">Affiliate Program</a> above for how to register referrers for sales.</p>
+<p>More information will appear here when our redesigned affiliate program is ready. In the meantime, contact us at <a href="mailto:contact@opensea.io">contact@opensea.io</a> (or in <a href="https://discord.gg/ga8EJbv">Discord</a>), or use our legacy affiliate program at <a href="https://opensea.io/account#referrals">https://opensea.io/account#referrals</a>.</p>
+
+<a href="#listening-to-events" id="listening-to-events" style="color: inherit; text-decoration: none;">
+  <h3>Listening to Events</h3>
+</a>
+<p>Events are fired whenever transactions or orders are being created, and when transactions return receipts from recently mined blocks on the Ethereum blockchain.</p>
+<p>Our recommendation is that you &quot;forward&quot; OpenSea events to your own store or state management system. Here&#39;s an example of doing that with a Redux action:</p>
+<pre><code class="language-JavaScript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-4">EventType</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&#39;opensea-js&#39;</span><br/><span class="hl-2">import</span><span class="hl-0"> </span><span class="hl-3">*</span><span class="hl-0"> </span><span class="hl-2">as</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0"> </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&#39;./index&#39;</span><br/><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-4">openSeaPort</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&#39;../globalSingletons&#39;</span><br/><br/><span class="hl-1">// ...</span><br/><br/><span class="hl-7">handleSeaportEvents</span><span class="hl-0">() {</span><br/><span class="hl-0">  </span><span class="hl-2">return</span><span class="hl-0"> </span><span class="hl-3">async</span><span class="hl-0"> </span><span class="hl-3">function</span><span class="hl-0">(</span><span class="hl-4">dispatch</span><span class="hl-0">, </span><span class="hl-4">getState</span><span class="hl-0">) {</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">TransactionCreated</span><span class="hl-0">, ({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">SET_PENDING_TRANSACTION_HASH</span><span class="hl-0">, </span><span class="hl-4">hash:</span><span class="hl-0"> </span><span class="hl-4">transactionHash</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">TransactionConfirmed</span><span class="hl-0">, ({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-1">// Only reset your exchange UI if we&#39;re finishing an order fulfillment or cancellation</span><br/><span class="hl-0">      </span><span class="hl-2">if</span><span class="hl-0"> (</span><span class="hl-4">event</span><span class="hl-0"> == </span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">MatchOrders</span><span class="hl-0"> || </span><span class="hl-4">event</span><span class="hl-0"> == </span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">CancelOrder</span><span class="hl-0">) {</span><br/><span class="hl-0">        </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">RESET_EXCHANGE</span><span class="hl-0"> })</span><br/><span class="hl-0">      }</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">TransactionDenied</span><span class="hl-0">, ({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">RESET_EXCHANGE</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">TransactionFailed</span><span class="hl-0">, ({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">transactionHash</span><span class="hl-0">, </span><span class="hl-4">event</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">RESET_EXCHANGE</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">InitializeAccount</span><span class="hl-0">, ({ </span><span class="hl-4">accountAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">INITIALIZE_PROXY</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">WrapEth</span><span class="hl-0">, ({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">amount</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">amount</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">WRAP_ETH</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">UnwrapWeth</span><span class="hl-0">, ({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">amount</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">amount</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">UNWRAP_WETH</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">ApproveCurrency</span><span class="hl-0">, ({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">APPROVE_WETH</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">ApproveAllAssets</span><span class="hl-0">, ({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">proxyAddress</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">proxyAddress</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">APPROVE_ALL_ASSETS</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">ApproveAsset</span><span class="hl-0">, ({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">proxyAddress</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0">, </span><span class="hl-4">tokenId</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">accountAddress</span><span class="hl-0">, </span><span class="hl-4">proxyAddress</span><span class="hl-0">, </span><span class="hl-4">tokenAddress</span><span class="hl-0">, </span><span class="hl-4">tokenId</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">APPROVE_ASSET</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">CreateOrder</span><span class="hl-0">, ({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">CREATE_ORDER</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">OrderDenied</span><span class="hl-0">, ({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">RESET_EXCHANGE</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">MatchOrders</span><span class="hl-0">, ({ </span><span class="hl-4">buy</span><span class="hl-0">, </span><span class="hl-4">sell</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">buy</span><span class="hl-0">, </span><span class="hl-4">sell</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">FULFILL_ORDER</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">    </span><span class="hl-4">openSeaPort</span><span class="hl-0">.</span><span class="hl-7">addListener</span><span class="hl-0">(</span><span class="hl-4">EventType</span><span class="hl-0">.</span><span class="hl-4">CancelOrder</span><span class="hl-0">, ({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> }) </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-4">console</span><span class="hl-0">.</span><span class="hl-7">info</span><span class="hl-0">({ </span><span class="hl-4">order</span><span class="hl-0">, </span><span class="hl-4">accountAddress</span><span class="hl-0"> })</span><br/><span class="hl-0">      </span><span class="hl-7">dispatch</span><span class="hl-0">({ </span><span class="hl-4">type:</span><span class="hl-0"> </span><span class="hl-4">ActionTypes</span><span class="hl-0">.</span><span class="hl-6">CANCEL_ORDER</span><span class="hl-0"> })</span><br/><span class="hl-0">    })</span><br/><span class="hl-0">  }</span><br/><span class="hl-0">}</span>
 </code></pre>
-				<p><strong>Contributing</strong></p>
-				<p>Contributions welcome! Please use GitHub issues for suggestions/concerns - if you prefer to express your intentions in code, feel free to submit a pull request.</p>
-				<h2 id="diagnosing-common-issues">Diagnosing Common Issues</h2>
-				<ul>
-					<li><p>Is the <code>expirationTime</code> in the future? If not, change it to a time in the future.</p>
-					</li>
-					<li><p>Are the input addresses all strings? If not, convert them to strings.</p>
-					</li>
-					<li><p>Is your computer&#39;s internal clock accurate? If not, try enabling automatic clock adjustment locally or following <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html">this tutorial</a> to update an Amazon EC2 instance.</p>
-					</li>
-					<li><p>Are you attempting to purchase a token that&#39;s unpurchasable on <a href="https://opensea.io/">OpenSea</a>? If so, contact us <a href="https://discord.gg/XjwWYgU">Discord</a> in the <code>#developers</code> channel and we&#39;ll help diagnose the issue.</p>
-					</li>
-				</ul>
-				<h2 id="testing-your-branch-locally">Testing your branch locally</h2>
-				<pre><code class="lang-sh">yarn link <span class="hljs-comment"># in opensea-js repo</span>
-yarn link opensea-js <span class="hljs-comment"># in repo you're working on</span>
+<p>To remove all listeners and start over, just call <code>seaport.removeAllListeners()</code>.</p>
+
+<a href="#learning-more" id="learning-more" style="color: inherit; text-decoration: none;">
+  <h2>Learning More</h2>
+</a>
+<p>Auto-generated documentation for each export is available <a href="https://projectopensea.github.io/opensea-js/">here</a>.</p>
+<p>If you need extra help, support is free! Contact the OpenSea devs. They&#39;re available every day on <a href="https://discord.gg/XjwWYgU">Discord</a> in the <code>#developers</code> channel.</p>
+
+<a href="#example-code" id="example-code" style="color: inherit; text-decoration: none;">
+  <h3>Example Code</h3>
+</a>
+<p>Check out the <a href="https://github.com/ProjectOpenSea/ships-log">Ship&#39;s Log</a>, built with the SDK, which shows the recent orders in the OpenSea orderbook.</p>
+<p>You can view a live demo <a href="https://ships-log.herokuapp.com/">here</a>! Also check out the <a href="https://mythereum.io/marketplace">Mythereum marketplace</a>, which is entirely powered by OpenSea.js.</p>
+
+<a href="#migrating-to-version-10" id="migrating-to-version-10" style="color: inherit; text-decoration: none;">
+  <h2>Migrating to version 1.0</h2>
+</a>
+<p>See the <a href="CHANGELOG.md">Changelog</a>.</p>
+
+<a href="#development-information" id="development-information" style="color: inherit; text-decoration: none;">
+  <h2>Development Information</h2>
+</a>
+<p><strong>Setup</strong></p>
+<p><a href="https://nodejs.org/en/">Node &gt;= v8.11.2</a> required.</p>
+<p>Before any development, install the required NPM dependencies:</p>
+<pre><code class="language-bash"><span class="hl-0">npm install</span>
 </code></pre>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-is-not-exported">
-						<a href="enums/assetcontracttype.html" class="tsd-kind-icon">Asset<wbr>Contract<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-not-exported">
-						<a href="enums/asseteventtype.html" class="tsd-kind-icon">Asset<wbr>Event<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-not-exported">
-						<a href="enums/auctiontype.html" class="tsd-kind-icon">Auction<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/feemethod.html" class="tsd-kind-icon">Fee<wbr>Method</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/orderside.html" class="tsd-kind-icon">Order<wbr>Side</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/salekind.html" class="tsd-kind-icon">Sale<wbr>Kind</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-not-exported">
-						<a href="enums/side.html" class="tsd-kind-icon">Side</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/tokenstandardversion.html" class="tsd-kind-icon">Token<wbr>Standard<wbr>Version</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/wyvernschemaname.html" class="tsd-kind-icon">Wyvern<wbr>Schema<wbr>Name</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/openseaapi.html" class="tsd-kind-icon">Open<wbr>SeaAPI</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/openseaport.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Port</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/asset.html" class="tsd-kind-icon">Asset</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/assetevent.html" class="tsd-kind-icon">Asset<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/callspec.html" class="tsd-kind-icon">Call<wbr>Spec</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/computedfees.html" class="tsd-kind-icon">Computed<wbr>Fees</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/eventdata.html" class="tsd-kind-icon">Event<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/exchangemetadataforasset.html" class="tsd-kind-icon">Exchange<wbr>Metadata<wbr>For<wbr>Asset</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/exchangemetadataforbundle.html" class="tsd-kind-icon">Exchange<wbr>Metadata<wbr>For<wbr>Bundle</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/limitedcallspec.html" class="tsd-kind-icon">Limited<wbr>Call<wbr>Spec</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/numericaltraitstats.html" class="tsd-kind-icon">Numerical<wbr>Trait<wbr>Stats</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaapiconfig.html" class="tsd-kind-icon">Open<wbr>SeaAPIConfig</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaaccount.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Account</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaasset.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Asset</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaassetbundle.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Asset<wbr>Bundle</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/openseaassetbundlejson.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Asset<wbr>BundleJSON</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaassetbundlequery.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Asset<wbr>Bundle<wbr>Query</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaassetcontract.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Asset<wbr>Contract</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseaassetquery.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Asset<wbr>Query</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseacollection.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Collection</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/openseafees.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Fees</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseafungibletoken.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Fungible<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseafungibletokenquery.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Fungible<wbr>Token<wbr>Query</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseatraitstats.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>Trait<wbr>Stats</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/openseauser.html" class="tsd-kind-icon">Open<wbr>Sea<wbr>User</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/order.html" class="tsd-kind-icon">Order</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/orderjson.html" class="tsd-kind-icon">OrderJSON</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/orderquery.html" class="tsd-kind-icon">Order<wbr>Query</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/orderbookresponse.html" class="tsd-kind-icon">Orderbook<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/partialabidefinition.html" class="tsd-kind-icon">Partial<wbr>Abi<wbr>Definition</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/stringtraitstats.html" class="tsd-kind-icon">String<wbr>Trait<wbr>Stats</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/transaction.html" class="tsd-kind-icon">Transaction</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/unhashedorder.html" class="tsd-kind-icon">Unhashed<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/unsignedorder.html" class="tsd-kind-icon">Unsigned<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/wyvernbundle.html" class="tsd-kind-icon">Wyvern<wbr>Bundle</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/wyvernftasset.html" class="tsd-kind-icon">WyvernFTAsset</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/wyvernnftasset.html" class="tsd-kind-icon">WyvernNFTAsset</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#atomicizedbuyencoder" class="tsd-kind-icon">Atomicized<wbr>Buy<wbr>Encoder</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#atomicizedsellencoder" class="tsd-kind-icon">Atomicized<wbr>Sell<wbr>Encoder</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#defaultcallencoder" class="tsd-kind-icon">Default<wbr>Call<wbr>Encoder</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#encoder" class="tsd-kind-icon">Encoder</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#exchangemetadata" class="tsd-kind-icon">Exchange<wbr>Metadata</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#partialreadonlycontractabi" class="tsd-kind-icon">Partial<wbr>Readonly<wbr>Contract<wbr>Abi</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#txncallback" class="tsd-kind-icon">Txn<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#web3callback" class="tsd-kind-icon">Web3<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#wyvernasset" class="tsd-kind-icon">Wyvern<wbr>Asset</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#wyvernatomicmatchparameters" class="tsd-kind-icon">Wyvern<wbr>Atomic<wbr>Match<wbr>Parameters</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#age_of_rust_token_id" class="tsd-kind-icon">AGE_<wbr>OF_<wbr>RUST_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#alex_address" class="tsd-kind-icon">ALEX_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#alex_address_2" class="tsd-kind-icon">ALEX_<wbr>ADDRESS_<wbr>2</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#api_base_mainnet" class="tsd-kind-icon">API_<wbr>BASE_<wbr>MAINNET</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#api_base_rinkeby" class="tsd-kind-icon">API_<wbr>BASE_<wbr>RINKEBY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#api_path" class="tsd-kind-icon">API_<wbr>PATH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#benzene_address" class="tsd-kind-icon">BENZENE_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cats_in_mechs_id" class="tsd-kind-icon">CATS_<wbr>IN_<wbr>MECHS_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cheeze_wizards_basic_tournament_address" class="tsd-kind-icon">CHEEZE_<wbr>WIZARDS_<wbr>BASIC_<wbr>TOURNAMENT_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cheeze_wizards_basic_tournament_rinkeby_address" class="tsd-kind-icon">CHEEZE_<wbr>WIZARDS_<wbr>BASIC_<wbr>TOURNAMENT_<wbr>RINKEBY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cheeze_wizards_guild_address" class="tsd-kind-icon">CHEEZE_<wbr>WIZARDS_<wbr>GUILD_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cheeze_wizards_guild_rinkeby_address" class="tsd-kind-icon">CHEEZE_<wbr>WIZARDS_<wbr>GUILD_<wbr>RINKEBY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ck_address" class="tsd-kind-icon">CK_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ck_rinkeby_address" class="tsd-kind-icon">CK_<wbr>RINKEBY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ck_rinkeby_seller_fee" class="tsd-kind-icon">CK_<wbr>RINKEBY_<wbr>SELLER_<wbr>FEE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ck_rinkeby_token_id" class="tsd-kind-icon">CK_<wbr>RINKEBY_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ck_token_id" class="tsd-kind-icon">CK_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cryptoflowers_contract_address_with_buyer_fee" class="tsd-kind-icon">CRYPTOFLOWERS_<wbr>CONTRACT_<wbr>ADDRESS_<wbr>WITH_<wbr>BUYER_<wbr>FEE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cryptovoxels_wearable_2_id" class="tsd-kind-icon">CRYPTOVOXELS_<wbr>WEARABLE_<wbr>2_ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cryptovoxels_wearable_address" class="tsd-kind-icon">CRYPTOVOXELS_<wbr>WEARABLE_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cryptovoxels_wearable_id" class="tsd-kind-icon">CRYPTOVOXELS_<wbr>WEARABLE_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#canonicalweth" class="tsd-kind-icon">CanonicalWETH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cheezewizardsbasictournament" class="tsd-kind-icon">Cheeze<wbr>Wizards<wbr>Basic<wbr>Tournament</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#cheezewizardsguild" class="tsd-kind-icon">Cheeze<wbr>Wizards<wbr>Guild</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#dan_address" class="tsd-kind-icon">DAN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#dan_dapper_address" class="tsd-kind-icon">DAN_<wbr>DAPPER_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#decentraland_address" class="tsd-kind-icon">DECENTRALAND_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#decentraland_estate_address" class="tsd-kind-icon">DECENTRALAND_<wbr>ESTATE_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#decentraland_id" class="tsd-kind-icon">DECENTRALAND_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#default_buyer_fee_basis_points" class="tsd-kind-icon">DEFAULT_<wbr>BUYER_<wbr>FEE_<wbr>BASIS_<wbr>POINTS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#default_gas_increase_factor" class="tsd-kind-icon">DEFAULT_<wbr>GAS_<wbr>INCREASE_<wbr>FACTOR</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#default_max_bounty" class="tsd-kind-icon">DEFAULT_<wbr>MAX_<wbr>BOUNTY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#default_seller_fee_basis_points" class="tsd-kind-icon">DEFAULT_<wbr>SELLER_<wbr>FEE_<wbr>BASIS_<wbr>POINTS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#default_wrapped_nft_liquidation_uniswap_slippage_in_basis_points" class="tsd-kind-icon">DEFAULT_<wbr>WRAPPED_<wbr>NFT_<wbr>LIQUIDATION_<wbr>UNISWAP_<wbr>SLIPPAGE_<wbr>IN_<wbr>BASIS_<wbr>POINTS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#devin_address" class="tsd-kind-icon">DEVIN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#digital_art_chain_address" class="tsd-kind-icon">DIGITAL_<wbr>ART_<wbr>CHAIN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#digital_art_chain_token_id" class="tsd-kind-icon">DIGITAL_<wbr>ART_<wbr>CHAIN_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#dissolution_token_id" class="tsd-kind-icon">DISSOLUTION_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#decentralandestates" class="tsd-kind-icon">Decentraland<wbr>Estates</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#enjin_address" class="tsd-kind-icon">ENJIN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#enjin_coin_address" class="tsd-kind-icon">ENJIN_<wbr>COIN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#enjin_legacy_address" class="tsd-kind-icon">ENJIN_<wbr>LEGACY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ens_hello_name" class="tsd-kind-icon">ENS_<wbr>HELLO_<wbr>NAME</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ens_hello_token_id" class="tsd-kind-icon">ENS_<wbr>HELLO_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ens_rinkeby_short_name_owner" class="tsd-kind-icon">ENS_<wbr>RINKEBY_<wbr>SHORT_<wbr>NAME_<wbr>OWNER</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ens_rinkeby_token_address" class="tsd-kind-icon">ENS_<wbr>RINKEBY_<wbr>TOKEN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#erc1155" class="tsd-kind-icon">ERC1155</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#erc20" class="tsd-kind-icon">ERC20</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#erc721" class="tsd-kind-icon">ERC721</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#gods_unchained_address" class="tsd-kind-icon">GODS_<wbr>UNCHAINED_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#gods_unchained_chest_address" class="tsd-kind-icon">GODS_<wbr>UNCHAINED_<wbr>CHEST_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#gods_unchained_token_id" class="tsd-kind-icon">GODS_<wbr>UNCHAINED_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#inverse_basis_point" class="tsd-kind-icon">INVERSE_<wbr>BASIS_<wbr>POINT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mainnet_api_key" class="tsd-kind-icon">MAINNET_<wbr>API_<wbr>KEY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mainnet_provider_url" class="tsd-kind-icon">MAINNET_<wbr>PROVIDER_<wbr>URL</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mana_address" class="tsd-kind-icon">MANA_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#max_error_length" class="tsd-kind-icon">MAX_<wbr>ERROR_<wbr>LENGTH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#max_uint_256" class="tsd-kind-icon">MAX_<wbr>UINT_<wbr>256</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#min_expiration_seconds" class="tsd-kind-icon">MIN_<wbr>EXPIRATION_<wbr>SECONDS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mythereum_address" class="tsd-kind-icon">MYTHEREUM_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mythereum_slug" class="tsd-kind-icon">MYTHEREUM_<wbr>SLUG</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mythereum_token_id" class="tsd-kind-icon">MYTHEREUM_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#null_address" class="tsd-kind-icon">NULL_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#null_block_hash" class="tsd-kind-icon">NULL_<wbr>BLOCK_<wbr>HASH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#opensea_fee_recipient" class="tsd-kind-icon">OPENSEA_<wbr>FEE_<wbr>RECIPIENT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#opensea_seller_bounty_basis_points" class="tsd-kind-icon">OPENSEA_<wbr>SELLER_<wbr>BOUNTY_<wbr>BASIS_<wbr>POINTS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#orderbook_path" class="tsd-kind-icon">ORDERBOOK_<wbr>PATH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#orderbook_version" class="tsd-kind-icon">ORDERBOOK_<wbr>VERSION</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#order_matching_latency_seconds" class="tsd-kind-icon">ORDER_<wbr>MATCHING_<wbr>LATENCY_<wbr>SECONDS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#random_address" class="tsd-kind-icon">RANDOM_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#rinkeby_api_key" class="tsd-kind-icon">RINKEBY_<wbr>API_<wbr>KEY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#rinkeby_provider_url" class="tsd-kind-icon">RINKEBY_<wbr>PROVIDER_<wbr>URL</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#rpc_url_path" class="tsd-kind-icon">RPC_<wbr>URL_<wbr>PATH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#sandbox_rinkeby_address" class="tsd-kind-icon">SANDBOX_<wbr>RINKEBY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#sandbox_rinkeby_id" class="tsd-kind-icon">SANDBOX_<wbr>RINKEBY_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#sell_order_batch_size" class="tsd-kind-icon">SELL_<wbr>ORDER_<wbr>BATCH_<wbr>SIZE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#site_host_mainnet" class="tsd-kind-icon">SITE_<wbr>HOST_<wbr>MAINNET</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#site_host_rinkeby" class="tsd-kind-icon">SITE_<wbr>HOST_<wbr>RINKEBY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#spirit_clash_owner" class="tsd-kind-icon">SPIRIT_<wbr>CLASH_<wbr>OWNER</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#spirit_clash_token_id" class="tsd-kind-icon">SPIRIT_<wbr>CLASH_<wbr>TOKEN_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#static_call_cheeze_wizards_address" class="tsd-kind-icon">STATIC_<wbr>CALL_<wbr>CHEEZE_<wbr>WIZARDS_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#static_call_cheeze_wizards_rinkeby_address" class="tsd-kind-icon">STATIC_<wbr>CALL_<wbr>CHEEZE_<wbr>WIZARDS_<wbr>RINKEBY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#static_call_decentraland_estates_address" class="tsd-kind-icon">STATIC_<wbr>CALL_<wbr>DECENTRALAND_<wbr>ESTATES_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#static_call_tx_origin_address" class="tsd-kind-icon">STATIC_<wbr>CALL_<wbr>TX_<wbr>ORIGIN_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#static_call_tx_origin_rinkeby_address" class="tsd-kind-icon">STATIC_<wbr>CALL_<wbr>TX_<wbr>ORIGIN_<wbr>RINKEBY_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#staticcheckcheezewizards" class="tsd-kind-icon">Static<wbr>Check<wbr>Cheeze<wbr>Wizards</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#staticcheckdecentralandestates" class="tsd-kind-icon">Static<wbr>Check<wbr>Decentraland<wbr>Estates</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#staticchecktxorigin" class="tsd-kind-icon">Static<wbr>Check<wbr>TxOrigin</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#uniswap_factory_address_mainnet" class="tsd-kind-icon">UNISWAP_<wbr>FACTORY_<wbr>ADDRESS_<wbr>MAINNET</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#uniswap_factory_address_rinkeby" class="tsd-kind-icon">UNISWAP_<wbr>FACTORY_<wbr>ADDRESS_<wbr>RINKEBY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#uniswapexchange" class="tsd-kind-icon">Uniswap<wbr>Exchange</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#uniswapfactory" class="tsd-kind-icon">Uniswap<wbr>Factory</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#weth_address" class="tsd-kind-icon">WETH_<wbr>ADDRESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrapped_nft_factory_address_mainnet" class="tsd-kind-icon">WRAPPED_<wbr>NFT_<wbr>FACTORY_<wbr>ADDRESS_<wbr>MAINNET</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrapped_nft_factory_address_rinkeby" class="tsd-kind-icon">WRAPPED_<wbr>NFT_<wbr>FACTORY_<wbr>ADDRESS_<wbr>RINKEBY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrapped_nft_liquidation_proxy_address_mainnet" class="tsd-kind-icon">WRAPPED_<wbr>NFT_<wbr>LIQUIDATION_<wbr>PROXY_<wbr>ADDRESS_<wbr>MAINNET</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrapped_nft_liquidation_proxy_address_rinkeby" class="tsd-kind-icon">WRAPPED_<wbr>NFT_<wbr>LIQUIDATION_<wbr>PROXY_<wbr>ADDRESS_<wbr>RINKEBY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrappednft" class="tsd-kind-icon">WrappedNFT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrappednftfactory" class="tsd-kind-icon">WrappedNFTFactory</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#wrappednftliquidationproxy" class="tsd-kind-icon">WrappedNFTLiquidation<wbr>Proxy</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#apitotest" class="tsd-kind-icon">api<wbr>ToTest</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#asset" class="tsd-kind-icon">asset</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#assetsforbulktransfer" class="tsd-kind-icon">assets<wbr>For<wbr>Bulk<wbr>Transfer</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#assetsforbundleorder" class="tsd-kind-icon">assets<wbr>For<wbr>Bundle<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#assetsforbundleordererc721v3" class="tsd-kind-icon">assets<wbr>For<wbr>Bundle<wbr>OrderERC721v3</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#client" class="tsd-kind-icon">client</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#daiaddress" class="tsd-kind-icon">dai<wbr>Address</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#encodereplacementpattern" class="tsd-kind-icon">encode<wbr>Replacement<wbr>Pattern</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#englishsellorderjson" class="tsd-kind-icon">english<wbr>Sell<wbr>OrderJSON</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#expirationtime" class="tsd-kind-icon">expiration<wbr>Time</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#fungibleassetsforbundleorder" class="tsd-kind-icon">fungible<wbr>Assets<wbr>For<wbr>Bundle<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#heterogenoussemifungibleassetsforbundleorder" class="tsd-kind-icon">heterogenous<wbr>Semi<wbr>Fungible<wbr>Assets<wbr>For<wbr>Bundle<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#homogenoussemifungibleassetsforbundleorder" class="tsd-kind-icon">homogenous<wbr>Semi<wbr>Fungible<wbr>Assets<wbr>For<wbr>Bundle<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#mainapi" class="tsd-kind-icon">main<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#manaaddress" class="tsd-kind-icon">mana<wbr>Address</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#ordersjson" class="tsd-kind-icon">ordersJSON</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#provider" class="tsd-kind-icon">provider</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#rinkebyapi" class="tsd-kind-icon">rinkeby<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#rinkebyclient" class="tsd-kind-icon">rinkeby<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#rinkebyprovider" class="tsd-kind-icon">rinkeby<wbr>Provider</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#txcallbacks" class="tsd-kind-icon">tx<wbr>Callbacks</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#_throworcontinue" class="tsd-kind-icon">_throw<wbr>OrContinue</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#accountfromjson" class="tsd-kind-icon">account<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#annotateerc20transferabi" class="tsd-kind-icon">annotateERC20<wbr>TransferABI</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#annotateerc721transferabi" class="tsd-kind-icon">annotateERC721<wbr>TransferABI</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#assetbundlefromjson" class="tsd-kind-icon">asset<wbr>Bundle<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#assetcontractfromjson" class="tsd-kind-icon">asset<wbr>Contract<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#asseteventfromjson" class="tsd-kind-icon">asset<wbr>Event<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#assetfromjson" class="tsd-kind-icon">asset<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#assignorderstosides" class="tsd-kind-icon">assign<wbr>Orders<wbr>ToSides</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#collectionfromjson" class="tsd-kind-icon">collection<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#confirmtransaction" class="tsd-kind-icon">confirm<wbr>Transaction</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#delay" class="tsd-kind-icon">delay</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodeatomicizedbuy" class="tsd-kind-icon">encode<wbr>Atomicized<wbr>Buy</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#encodeatomicizedcalldata" class="tsd-kind-icon">encode<wbr>Atomicized<wbr>Calldata</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodeatomicizedsell" class="tsd-kind-icon">encode<wbr>Atomicized<wbr>Sell</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodeatomicizedtransfer" class="tsd-kind-icon">encode<wbr>Atomicized<wbr>Transfer</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodebuy" class="tsd-kind-icon">encode<wbr>Buy</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodecall" class="tsd-kind-icon">encode<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodedefaultcall" class="tsd-kind-icon">encode<wbr>Default<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodeproxycall" class="tsd-kind-icon">encode<wbr>Proxy<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodesell" class="tsd-kind-icon">encode<wbr>Sell</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#encodetransfercall" class="tsd-kind-icon">encode<wbr>Transfer<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#estimatecurrentprice" class="tsd-kind-icon">estimate<wbr>Current<wbr>Price</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#estimategas" class="tsd-kind-icon">estimate<wbr>Gas</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#getassetsandquantities" class="tsd-kind-icon">get<wbr>Assets<wbr>And<wbr>Quantities</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcurrentgasprice" class="tsd-kind-icon">get<wbr>Current<wbr>Gas<wbr>Price</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getmethod" class="tsd-kind-icon">get<wbr>Method</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getnoncompliantapprovaladdress" class="tsd-kind-icon">get<wbr>Non<wbr>Compliant<wbr>Approval<wbr>Address</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getorderhash" class="tsd-kind-icon">get<wbr>Order<wbr>Hash</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#gettransferfeesettings" class="tsd-kind-icon">get<wbr>Transfer<wbr>Fee<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getwyvernasset" class="tsd-kind-icon">get<wbr>Wyvern<wbr>Asset</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getwyvernbundle" class="tsd-kind-icon">get<wbr>Wyvern<wbr>Bundle</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#iscontractaddress" class="tsd-kind-icon">is<wbr>Contract<wbr>Address</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#makebignumber" class="tsd-kind-icon">make<wbr>Big<wbr>Number</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#ondeprecated" class="tsd-kind-icon">on<wbr>Deprecated</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#orderfromjson" class="tsd-kind-icon">order<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#ordertojson" class="tsd-kind-icon">order<wbr>ToJSON</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#parsesignaturehex" class="tsd-kind-icon">parse<wbr>Signature<wbr>Hex</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#personalsignasync" class="tsd-kind-icon">personal<wbr>Sign<wbr>Async</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-not-exported">
-						<a href="globals.html#promisify" class="tsd-kind-icon">promisify</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#promisifycall" class="tsd-kind-icon">promisify<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#rawcall" class="tsd-kind-icon">raw<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#requireordercalldatacanmatch" class="tsd-kind-icon">require<wbr>Order<wbr>Calldata<wbr>Can<wbr>Match</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#requireorderscanmatch" class="tsd-kind-icon">require<wbr>Orders<wbr>Can<wbr>Match</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#sendrawtransaction" class="tsd-kind-icon">send<wbr>Raw<wbr>Transaction</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#testbundlemetadata" class="tsd-kind-icon">test<wbr>Bundle<wbr>Metadata</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#testfeesmakerorder" class="tsd-kind-icon">test<wbr>Fees<wbr>Maker<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#testmatchingneworder" class="tsd-kind-icon">test<wbr>Matching<wbr>New<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#testmatchingorder" class="tsd-kind-icon">test<wbr>Matching<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#tokenfromjson" class="tsd-kind-icon">token<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#track" class="tsd-kind-icon">track</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#transactionfromjson" class="tsd-kind-icon">transaction<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#unittestfeesbuyorder" class="tsd-kind-icon">unit<wbr>Test<wbr>Fees<wbr>Buy<wbr>Order</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#userfromjson" class="tsd-kind-icon">user<wbr>FromJSON</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#validateandformatwalletaddress" class="tsd-kind-icon">validate<wbr>And<wbr>Format<wbr>Wallet<wbr>Address</a>
-					</li>
-					<li class=" tsd-kind-object-literal tsd-is-not-exported">
-						<a href="globals.html#salekindinterface" class="tsd-kind-icon">Sale<wbr>Kind<wbr>Interface</a>
-					</li>
-					<li class=" tsd-kind-object-literal">
-						<a href="globals.html#proxyabi" class="tsd-kind-icon">proxyABI</a>
-					</li>
-					<li class=" tsd-kind-object-literal">
-						<a href="globals.html#proxyassertabi" class="tsd-kind-icon">proxy<wbr>AssertABI</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
-</body>
-</html>
+<p>And install TypeScript if you haven&#39;t already:</p>
+<pre><code class="language-bash"><span class="hl-0">npm install -g tslint typescript</span>
+</code></pre>
+<p><strong>Build</strong></p>
+<p>Then, lint and build the library into the <code>lib</code> directory:</p>
+<pre><code class="language-bash"><span class="hl-0">npm run build</span>
+</code></pre>
+<p>Or run the tests:</p>
+<pre><code class="language-bash"><span class="hl-0">npm </span><span class="hl-7">test</span>
+</code></pre>
+<p>Note that the tests require access to both Infura and the OpenSea API. The timeout is adjustable via the <code>test</code> script in <code>package.json</code>.</p>
+<p><strong>Generate Documentation</strong></p>
+<p>Generate html docs, also available for browsing <a href="https://projectopensea.github.io/opensea-js/">here</a>:</p>
+<pre><code class="language-bash"><span class="hl-0">npm run docsHtml</span>
+</code></pre>
+<p>Or generate markdown docs available for browsing on git repos:</p>
+<pre><code class="language-bash"><span class="hl-0">npm run docsMarkdown</span>
+</code></pre>
+<p>Due to a markdown theme typescript issue, <code>docs</code> just generates html docs right now:</p>
+<pre><code class="language-bash"><span class="hl-0">npm run docs</span>
+</code></pre>
+<p><strong>Contributing</strong></p>
+<p>Contributions welcome! Please use GitHub issues for suggestions/concerns - if you prefer to express your intentions in code, feel free to submit a pull request.</p>
+
+<a href="#diagnosing-common-issues" id="diagnosing-common-issues" style="color: inherit; text-decoration: none;">
+  <h2>Diagnosing Common Issues</h2>
+</a>
+<ul>
+<li><p>Is the <code>expirationTime</code> in the future? If not, change it to a time in the future.</p>
+</li>
+<li><p>Are the input addresses all strings? If not, convert them to strings.</p>
+</li>
+<li><p>Is your computer&#39;s internal clock accurate? If not, try enabling automatic clock adjustment locally or following <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html">this tutorial</a> to update an Amazon EC2 instance.</p>
+</li>
+<li><p>Are you attempting to purchase a token that&#39;s unpurchasable on <a href="https://opensea.io/">OpenSea</a>? If so, contact us <a href="https://discord.gg/XjwWYgU">Discord</a> in the <code>#developers</code> channel and we&#39;ll help diagnose the issue.</p>
+</li>
+</ul>
+
+<a href="#testing-your-branch-locally" id="testing-your-branch-locally" style="color: inherit; text-decoration: none;">
+  <h2>Testing your branch locally</h2>
+</a>
+<pre><code class="language-sh"><span class="hl-0">yarn link </span><span class="hl-1"># in opensea-js repo</span><br/><span class="hl-0">yarn link opensea-js </span><span class="hl-1"># in repo you&#39;re working on</span>
+</code></pre>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-enum tsd-is-external"><a href="enums/AbiType.html" class="tsd-kind-icon">Abi<wbr/>Type</a></li><li class="tsd-kind-enum"><a href="enums/EventType.html" class="tsd-kind-icon">Event<wbr/>Type</a></li><li class="tsd-kind-enum tsd-is-external"><a href="enums/Network.html" class="tsd-kind-icon">Network</a></li><li class="tsd-kind-class"><a href="classes/OpenSeaAPI.html" class="tsd-kind-icon">Open<wbr/>SeaAPI</a></li><li class="tsd-kind-class"><a href="classes/OpenSeaPort.html" class="tsd-kind-icon">Open<wbr/>Sea<wbr/>Port</a></li><li class="tsd-kind-class tsd-is-external"><a href="classes/WyvernProtocol.html" class="tsd-kind-icon">Wyvern<wbr/>Protocol</a></li><li class="tsd-kind-interface"><a href="interfaces/EventData.html" class="tsd-kind-icon">Event<wbr/>Data</a></li><li class="tsd-kind-function"><a href="modules.html#encodeAtomicizedBuy" class="tsd-kind-icon">encode<wbr/>Atomicized<wbr/>Buy</a></li><li class="tsd-kind-function"><a href="modules.html#encodeAtomicizedSell" class="tsd-kind-icon">encode<wbr/>Atomicized<wbr/>Sell</a></li><li class="tsd-kind-function"><a href="modules.html#encodeCall" class="tsd-kind-icon">encode<wbr/>Call</a></li><li class="tsd-kind-function"><a href="modules.html#encodeDefaultCall" class="tsd-kind-icon">encode<wbr/>Default<wbr/>Call</a></li><li class="tsd-kind-function"><a href="modules.html#encodeReplacementPattern" class="tsd-kind-icon">encode<wbr/>Replacement<wbr/>Pattern</a></li><li class="tsd-kind-function"><a href="modules.html#encodeSell" class="tsd-kind-icon">encode<wbr/>Sell</a></li><li class="tsd-kind-function"><a href="modules.html#orderFromJSON" class="tsd-kind-icon">order<wbr/>FromJSON</a></li><li class="tsd-kind-function"><a href="modules.html#orderToJSON" class="tsd-kind-icon">order<wbr/>ToJSON</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
