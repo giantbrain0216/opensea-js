@@ -40,17 +40,17 @@
   "homepage": "https://docs.opensea.io/v1.0/reference",
   "dependencies": {
     "bignumber.js": "4.1.0",
-    "ethereumjs-abi": "git+https://github.com/ProjectWyvern/ethereumjs-abi.git",
+    "ethereumjs-abi": "0.6.8",
     "ethereumjs-util": "5.2.1",
     "ethers": "5.5.2",
     "fbemitter": "2.1.1",
     "isomorphic-unfetch": "2.1.1",
     "json-loader": "0.5.7",
-    "lodash": "4.17.4",
+    "lodash": "4.17.21",
     "query-string": "6.11.1",
     "web3": "0.20.7",
     "webpack": "3.10.0",
-    "wyvern-js": "git+https://github.com/ProjectOpenSea/wyvern-js.git#v3.2.1",
+    "wyvern-js": "github:ProjectOpenSea/wyvern-js#semver:^3.2.1",
     "wyvern-schemas": "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#v0.13.1"
   },
   "husky": {
