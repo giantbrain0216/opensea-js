@@ -33,7 +33,7 @@
   "dependencies": {
     "bignumber.js": "^4.1.0",
     "ethereumjs-abi": "git+https://github.com/ProjectWyvern/ethereumjs-abi.git",
-    "ethereumjs-util": "^5.2.0",
+    "ethereumjs-util": "^7.0.0",
     "fbemitter": "2.1.1",
     "isomorphic-unfetch": "^2.1.1",
     "lodash": "^4.17.21",
