@@ -5,6 +5,9 @@
 # OpenSea.js <!-- omit in toc -->
 
 [![https://badges.frapsoft.com/os/mit/mit.svg?v=102](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://opensource.org/licenses/MIT)
+[![Coverage Status](https://coveralls.io/repos/github/ProjectOpenSea/opensea-js/badge.svg?branch=master)](https://coveralls.io/github/ProjectOpenSea/opensea-js?branch=master)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 <!-- [![npm](https://img.shields.io/npm/v/wyvern-js.svg)](https://www.npmjs.com/package/wyvern-js) [![npm](https://img.shields.io/npm/dt/wyvern-js.svg)](https://www.npmjs.com/package/wyvern-js) -->
 
 A JavaScript library for crypto-native ecommerce: buying, selling, and bidding on any cryptogood. With OpenSea.js, you can easily build your own native marketplace for your non-fungible tokens, or NFTs. These can be ERC-721 or ERC-1155 (semi-fungible) items. You don't have to deploy your own smart contracts or backend orderbooks.
@@ -27,11 +30,6 @@ Published on [GitHub](https://github.com/ProjectOpenSea/opensea-js) and [npm](ht
   - [Buying Items](#buying-items)
   - [Accepting Offers](#accepting-offers)
   - [Transferring Items or Coins (Gifting)](#transferring-items-or-coins-gifting)
-- [Affiliate Program](#affiliate-program)
-  - [Referring Listings](#referring-listings)
-  - [Referring Offers](#referring-offers)
-  - [Custom Affiliate Programs](#custom-affiliate-programs)
-  - [Custom Referral Bounties](#custom-referral-bounties)
 - [Advanced](#advanced)
   - [Scheduling Future Listings](#scheduling-future-listings)
   - [Purchasing Items for Other Users](#purchasing-items-for-other-users)
@@ -62,6 +60,7 @@ Happy seafaring! ⛵️
 We recommend switching to Node.js version 8.11 to make sure common crypto dependencies work. Execute `nvm use`, if you have Node Version Manager.
 
 Then, in your project, run:
+
 ```bash
 npm install --save opensea-js
 ```
@@ -237,8 +236,10 @@ const offer = await seaport.createBuyOrder({
   startAmount: 1.2,
 })
 ```
+
 #### Offer Limits
-Note: The total value of buy orders must not exceed 100 x wallet balance.
+
+Note: The total value of buy orders must not exceed 1000 x wallet balance.
 
 ### Making Listings / Selling Items
 
@@ -385,7 +386,7 @@ const transactionHash = await this.props.seaport.fulfillOrder({ order, accountAd
 
 Note that the `fulfillOrder` promise resolves when the transaction has been confirmed and mined to the blockchain. To get the transaction hash before this happens, add an event listener (see [Listening to Events](#listening-to-events)) for the `TransactionCreated` event.
 
-If the order is a sell order (`order.side === OrderSide.Sell`), the taker is the *buyer* and this will prompt the buyer to pay for the item(s).
+If the order is a sell order (`order.side === OrderSide.Sell`), the taker is the _buyer_ and this will prompt the buyer to pay for the item(s).
 
 ### Accepting Offers
 
@@ -397,7 +398,7 @@ const accountAddress = "0x..." // The owner's wallet address, also the taker
 await this.props.seaport.fulfillOrder({ order, accountAddress })
 ```
 
-If the order is a buy order (`order.side === OrderSide.Buy`), then the taker is the *owner* and this will prompt the owner to exchange their item(s) for whatever is being offered in return. See [Listening to Events](#listening-to-events) below to respond to the setup transactions that occur the first time a user accepts a bid.
+If the order is a buy order (`order.side === OrderSide.Buy`), then the taker is the _owner_ and this will prompt the owner to exchange their item(s) for whatever is being offered in return. See [Listening to Events](#listening-to-events) below to respond to the setup transactions that occur the first time a user accepts a bid.
 
 ### Transferring Items or Coins (Gifting)
 
@@ -451,75 +452,6 @@ const transactionHash = await seaport.transfer({
 
 For more information, check out the documentation for WyvernSchemas on https://projectopensea.github.io/opensea-js/.
 
-## Affiliate Program
-
-OpenSea.js allows to you easily create an affiliate program in just a few lines of JavaScript! It's the crypto-equivalent of bounty hunting, and best of all, it's **fully paid for by OpenSea** so you can keep all of your winnings 💰
-
-If you want to be an affiliate, you can use this to **win at least 1%** of the sale price of any listing, both for assets and bundles.
-
-### Referring Listings
-
-You can instantly create an affiliate program for your assets by just passing in one more parameter when fulfilling orders... **and OpenSea will pay for it!** Whenever someone refers a sale or the acceptance of an offer, you can add a `referrerAddress` to give their wallet credit:
-
-```JavaScript
-const referrerAddress = "0x..." // The referrer's wallet address
-await this.props.seaport.fulfillOrder({ order, accountAddress, referrerAddress })
-```
-
-This works for buying assets and bundles, along with accepting bids that had no referrer attached to them (see below).
-
-As long as the referrer hasn't referred the buyer before, OpenSea will send the referrer an email congratulating them, along with **1%** of the item's sale price. If you'd like to be able to refer the same user for multiple purchases, contact us at contact@opensea.io (or in [Discord](https://discord.gg/ga8EJbv)).
-
-### Referring Offers
-
-Now you can also refer offers on assets! When the seller accepts the offer, the referrer will get credit:
-
-```JavaScript
-const referrerAddress = "0x..." // The referrer's wallet address
-await this.props.seaport.createBuyOrder({
-  asset: {
-    tokenId,
-    tokenAddress,
-  },
-  accountAddress, // Address of the bidder
-  startAmount: 1.2,
-  referrerAddress // Address of the referrer
-})
-```
-
-The same thing works for `createBundleBuyOrder`.
-
-### Custom Affiliate Programs
-
-You can use `createBuyOrder({ referrerAddress })` to create your own affiliate programs as well.
-
-When buyers place offers or bids on an asset, the referrers will automatically be recorded on OpenSea.io. Then, you can use the [Orderbook API](https://docs.opensea.io/reference#retrieving-orders) to inspect the `metadata` for orders and manually pay out referrers if you want to. The referrer will be labeled as `referrerAddress` in the `metadata` field.
-
-### Custom Referral Bounties
-
-Sellers can customize the bounties they add to their items when listing them for sale. By default, OpenSea will pay referrers 1% and sellers pay them nothing, but sellers can increase this up to the full OpenSea fee (currently 2.5% for most assets) for both assets and bundles:
-
-```JavaScript
-// Price the Genesis CryptoKitty at 100 ETH
-const startAmount = 100
-// Reward referrers with 10% of the final sale price,
-// or 10 ETH in this case
-const extraBountyPercent = 10
-// The final bounty will be 10% + 1% from OpenSea, or 11 ETH!
-
-const auction = await seaport.createSellOrder({
-  tokenAddress: "0x06012c8cf97bead5deae237070f9587f8e7a266d", // CryptoKitties
-  tokenId: "1", // Token ID
-  accountAddress: OWNERS_WALLET_ADDRESS,
-  startAmount,
-  extraBountyBasisPoints: extraBountyPercent * 100
-})
-```
-
-**NOTE:** The final bounty in the example above will be 10% from the seller plus 1% from OpenSea, or 11 ETH in total!
-
-Developers can request to increase the OpenSea fee to allow for higher bounties - by default, it's capped at 2.5%. If you have any questions, contact us at contact@opensea.io (or in [Discord](https://discord.gg/ga8EJbv)), or join the program at https://opensea.io/account#referrals.
-
 ## Advanced
 
 Interested in purchasing for users server-side or with a bot, making bundling items together, scheduling future orders, or making bids in different ERC-20 tokens? OpenSea.js can help with that.
@@ -551,7 +483,7 @@ await this.props.seaport.fulfillOrder({
 })
 ```
 
-If the order is a sell order (`order.side === OrderSide.Sell`), the taker is the *buyer* and this will prompt the buyer to pay for the item(s) but send them to the `recipientAddress`. If the order is a buy order ( `OrderSide.Buy`), the taker is the *seller* but the bid amount be sent to the `recipientAddress`.
+If the order is a sell order (`order.side === OrderSide.Sell`), the taker is the _buyer_ and this will prompt the buyer to pay for the item(s) but send them to the `recipientAddress`. If the order is a buy order ( `OrderSide.Buy`), the taker is the _seller_ but the bid amount be sent to the `recipientAddress`.
 
 ### Bulk Transfers
 
@@ -624,9 +556,9 @@ const order = await seaport.api.getOrders({
 
 **Fun note:** soon, all ERC-20 tokens will be allowed! This will mean you can create crazy offers on crypto collectibles **using your own ERC-20 token**. However, opensea.io will only display offers and auctions in ERC-20 tokens that it knows about, optimizing the user experience of order takers. Orders made with the following tokens will be shown on OpenSea:
 
-* MANA, Decentraland's currency: https://etherscan.io/token/0x0f5d2fb29fb7d3cfee444a200298f468908cc942 
-* DAI, Maker's stablecoin, pegged to $1 USD: https://etherscan.io/token/0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359
-* And tons more! See the "Currencies" list in the sidebar on https://opensea.io/assets for a full list, or contact us to add yours: [Discord](https://discord.gg/ga8EJbv)
+- MANA, Decentraland's currency: https://etherscan.io/token/0x0f5d2fb29fb7d3cfee444a200298f468908cc942
+- DAI, Maker's stablecoin, pegged to $1 USD: https://etherscan.io/token/0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359
+- And tons more! See the "Currencies" list in the sidebar on https://opensea.io/assets for a full list, or contact us to add yours: [Discord](https://discord.gg/ga8EJbv)
 
 ### Private Auctions
 
@@ -647,10 +579,9 @@ const listing = await seaport.createSellOrder({
 })
 ```
 
-
 ### Sharing Sale Fees with OpenSea
 
-We share fees for successful sales with game developers, relayers, and affiliates using the OpenSea orderbook. Developers can customize the fee amount to apply to  buyers and/or sellers.
+We share fees for successful sales with game developers, relayers, and affiliates using the OpenSea orderbook. Developers can customize the fee amount to apply to buyers and/or sellers.
 
 See [Affiliate Program](#affiliate-program) above for how to register referrers for sales.
 
@@ -779,6 +710,7 @@ npm run build
 ```
 
 Or run the tests:
+
 ```bash
 npm test
 ```
@@ -788,18 +720,9 @@ Note that the tests require access to both Infura and the OpenSea API. The timeo
 **Generate Documentation**
 
 Generate html docs, also available for browsing [here](https://projectopensea.github.io/opensea-js/):
-```bash
-npm run docsHtml
-```
 
-Or generate markdown docs available for browsing on git repos:
 ```bash
-npm run docsMarkdown
-```
-
-Due to a markdown theme typescript issue, `docs` just generates html docs right now:
-```bash
-npm run docs
+yarn docs-build
 ```
 
 **Contributing**
@@ -808,10 +731,17 @@ Contributions welcome! Please use GitHub issues for suggestions/concerns - if yo
 
 ## Diagnosing Common Issues
 
-* Is the `expirationTime` in future?  If not, change it to a time in the future.
+- Is the `expirationTime` in the future? If not, change it to a time in the future.
 
-* Are the input addresses all strings? If not, convert them to strings.
+- Are the input addresses all strings? If not, convert them to strings.
 
-* Is your computer's internal clock accurate? If not, try enabling automatic clock adjustment locally or following [this tutorial](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html) to update an Amazon EC2 instance.
+- Is your computer's internal clock accurate? If not, try enabling automatic clock adjustment locally or following [this tutorial](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html) to update an Amazon EC2 instance.
 
-* Are you attempting to purchase a token that's unpurchasable on [OpenSea](https://opensea.io/)?  If so, contact us [Discord](https://discord.gg/XjwWYgU) in the `#developers` channel and we'll help to diagnose the issue.
+- Are you attempting to purchase a token that's unpurchasable on [OpenSea](https://opensea.io/)? If so, contact us [Discord](https://discord.gg/XjwWYgU) in the `#developers` channel and we'll help diagnose the issue.
+
+## Testing your branch locally
+
+```sh
+yarn link # in opensea-js repo
+yarn link opensea-js # in repo you're working on
+```

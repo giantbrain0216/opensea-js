@@ -2,7 +2,7 @@ import { BigNumber } from "bignumber.js";
 import { isValidAddress } from "ethereumjs-util";
 import { EventEmitter, EventSubscription } from "fbemitter";
 import * as _ from "lodash";
-import * as Web3 from "web3";
+import Web3 from "web3";
 import { WyvernProtocol } from "wyvern-js";
 import * as WyvernSchemas from "wyvern-schemas";
 import { Schema } from "wyvern-schemas/dist/types";
@@ -161,7 +161,6 @@ export class OpenSeaPort {
   ) {
     // API config
     apiConfig.networkName = apiConfig.networkName || Network.Main;
-    apiConfig.gasPrice = apiConfig.gasPrice;
     this.api = new OpenSeaAPI(apiConfig);
 
     this._networkName = apiConfig.networkName;
@@ -269,8 +268,8 @@ export class OpenSeaPort {
 
     // Check if all tokenAddresses match. If not, then we have a mixedBatch of
     // NFTs from different NFT core contracts
-    const isMixedBatchOfAssets: boolean = !tokenAddresses.every(
-      (val, i, arr) => val === arr[0]
+    const isMixedBatchOfAssets = !tokenAddresses.every(
+      (val, _i, arr) => val === arr[0]
     );
 
     this._dispatch(EventType.WrapAssets, { assets: wyAssets, accountAddress });
@@ -335,8 +334,8 @@ export class OpenSeaPort {
 
     // Check if all tokenAddresses match. If not, then we have a mixedBatch of
     // NFTs from different NFT core contracts
-    const isMixedBatchOfAssets: boolean = !tokenAddresses.every(
-      (val, i, arr) => val === arr[0]
+    const isMixedBatchOfAssets = !tokenAddresses.every(
+      (val, _i, arr) => val === arr[0]
     );
 
     this._dispatch(EventType.UnwrapAssets, {
@@ -403,8 +402,8 @@ export class OpenSeaPort {
 
     // Check if all tokenAddresses match. If not, then we have a mixedBatch of
     // NFTs from different NFT core contracts
-    const isMixedBatchOfAssets: boolean = !tokenAddresses.every(
-      (val, i, arr) => val === arr[0]
+    const isMixedBatchOfAssets = !tokenAddresses.every(
+      (val, _i, arr) => val === arr[0]
     );
 
     this._dispatch(EventType.LiquidateAssets, {
@@ -455,8 +454,6 @@ export class OpenSeaPort {
     contractAddress: string;
     accountAddress: string;
   }) {
-    const token = WyvernSchemas.tokens[this._networkName].canonicalWrappedEther;
-
     this._dispatch(EventType.PurchaseAssets, {
       amount,
       contractAddress,
@@ -504,17 +501,19 @@ export class OpenSeaPort {
   }) {
     // Get UniswapExchange for WrappedNFTContract for contractAddress
     const wrappedNFTFactoryContract = this.web3.eth.contract(
-      WrappedNFTFactory as any[]
+      WrappedNFTFactory as Web3.AbiDefinition[]
     );
     const wrappedNFTFactory = await wrappedNFTFactoryContract.at(
       this._wrappedNFTFactoryAddress
     );
     const wrappedNFTAddress =
       await wrappedNFTFactory.nftContractToWrapperContract(contractAddress);
-    const wrappedNFTContract = this.web3.eth.contract(WrappedNFT as any[]);
+    const wrappedNFTContract = this.web3.eth.contract(
+      WrappedNFT as Web3.AbiDefinition[]
+    );
     const wrappedNFT = await wrappedNFTContract.at(wrappedNFTAddress);
     const uniswapFactoryContract = this.web3.eth.contract(
-      UniswapFactory as any[]
+      UniswapFactory as Web3.AbiDefinition[]
     );
     const uniswapFactory = await uniswapFactoryContract.at(
       this._uniswapFactoryAddress
@@ -523,7 +522,7 @@ export class OpenSeaPort {
       wrappedNFTAddress
     );
     const uniswapExchangeContract = this.web3.eth.contract(
-      UniswapExchange as any[]
+      UniswapExchange as Web3.AbiDefinition[]
     );
     const uniswapExchange = await uniswapExchangeContract.at(
       uniswapExchangeAddress
@@ -665,7 +664,7 @@ export class OpenSeaPort {
     referrerAddress?: string;
   }): Promise<Order> {
     // Default to 1 of each asset
-    quantities = quantities || assets.map((a) => 1);
+    quantities = quantities || assets.map((_a) => 1);
     paymentTokenAddress =
       paymentTokenAddress ||
       WyvernSchemas.tokens[this._networkName].canonicalWrappedEther.address;
@@ -1083,7 +1082,7 @@ export class OpenSeaPort {
     buyerAddress?: string;
   }): Promise<Order> {
     // Default to one of each asset
-    quantities = quantities || assets.map((a) => 1);
+    quantities = quantities || assets.map((_a) => 1);
 
     const order = await this._makeBundleSellOrder({
       bundleName,
@@ -1314,7 +1313,7 @@ export class OpenSeaPort {
    * Requires an account to be initialized first.
    * Called internally, but exposed for dev flexibility.
    * Checks to see if already approved, first. Then tries different approval methods from best to worst.
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param tokenId Token id to approve, but only used if approve-all isn't
    *  supported by the token contract
    * @param tokenAddress The contract address of the token being approved
@@ -1345,7 +1344,9 @@ export class OpenSeaPort {
     schemaName?: WyvernSchemaName;
   }): Promise<string | null> {
     const schema = this._getSchema(schemaName);
-    const tokenContract = this.web3.eth.contract(tokenAbi as any[]);
+    const tokenContract = this.web3.eth.contract(
+      tokenAbi as Web3.AbiDefinition[]
+    );
     const contract = await tokenContract.at(tokenAddress);
 
     if (!proxyAddress) {
@@ -1502,7 +1503,7 @@ export class OpenSeaPort {
    * Approve a fungible token (e.g. W-ETH) for use in trades.
    * Called internally, but exposed for dev flexibility.
    * Checks to see if the minimum amount is already approved, first.
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param accountAddress The user's wallet address
    * @param tokenAddress The contract address of the token being approved
    * @param proxyAddress The user's proxy address. If unspecified, uses the Wyvern token transfer proxy address.
@@ -1596,7 +1597,7 @@ export class OpenSeaPort {
    * Called internally, but exposed for dev flexibility.
    * Useful for old ERC20s that require a 0 approval count before
    * changing the count
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param accountAddress The user's wallet address
    * @param tokenAddress The contract address of the token being approved
    * @param proxyAddress The user's proxy address. If unspecified, uses the Wyvern token transfer proxy address.
@@ -1686,7 +1687,7 @@ export class OpenSeaPort {
    * An order may not be fulfillable if a target item's transfer function
    * is locked for some reason, e.g. an item is being rented within a game
    * or trading has been locked for an item type.
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param order Order to check
    * @param accountAddress The account address that will be fulfilling the order
    * @param recipientAddress The optional address to receive the order's item(s) or curriencies. If not specified, defaults to accountAddress.
@@ -1733,7 +1734,7 @@ export class OpenSeaPort {
    * An asset may not be transferrable if its transfer function
    * is locked for some reason, e.g. an item is being rented within a game
    * or trading has been locked for an item type.
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param tokenId DEPRECATED: Token ID. Use `asset` instead.
    * @param tokenAddress DEPRECATED: Address of the token's contract. Use `asset` instead.
    * @param asset The asset to trade
@@ -1959,7 +1960,7 @@ export class OpenSeaPort {
 
   /**
    * Get known payment tokens (ERC-20) that match your filters.
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param symbol Filter by the ERC-20 symbol for the token,
    *    e.g. "DAI" for Dai stablecoin
    * @param address Filter by the ERC-20 contract address for the token,
@@ -2289,7 +2290,7 @@ export class OpenSeaPort {
     }: { buy: Order; sell: Order; accountAddress: string; metadata?: string },
     retries = 1
   ): Promise<number | undefined> {
-    let value;
+    let value: BigNumber | undefined;
     if (
       buy.maker.toLowerCase() == accountAddress.toLowerCase() &&
       buy.paymentToken == NULL_ADDRESS
@@ -2362,6 +2363,7 @@ export class OpenSeaPort {
           metadata,
         ],
         // Typescript error in estimate gas method, so use any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { from: accountAddress, value } as any
       );
     } catch (error) {
@@ -2472,7 +2474,7 @@ export class OpenSeaPort {
     this._dispatch(EventType.InitializeAccount, { accountAddress });
     this.logger(`Initializing proxy for account: ${accountAddress}`);
 
-    const txnData: any = { from: accountAddress };
+    const txnData = { from: accountAddress };
     const gasEstimate =
       await this._wyvernProtocolReadOnly.wyvernProxyRegistry.registerProxy.estimateGasAsync(
         txnData
@@ -2509,7 +2511,7 @@ export class OpenSeaPort {
    * For a fungible token to use in trades (like W-ETH), get the amount
    *  approved for use by the Wyvern transfer proxy.
    * Internal method exposed for dev flexibility.
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param accountAddress Address for the user's wallet
    * @param tokenAddress Address for the token's contract
    * @param proxyAddress User's proxy address. If undefined, uses the token transfer proxy address
@@ -2814,7 +2816,7 @@ export class OpenSeaPort {
         ? CHEEZE_WIZARDS_BASIC_TOURNAMENT_ADDRESS
         : CHEEZE_WIZARDS_BASIC_TOURNAMENT_RINKEBY_ADDRESS;
       const cheezeWizardsBasicTournamentABI = this.web3.eth.contract(
-        CheezeWizardsBasicTournament as any[]
+        CheezeWizardsBasicTournament as Web3.AbiDefinition[]
       );
       const cheezeWizardsBasicTournmentInstance =
         await cheezeWizardsBasicTournamentABI.at(
@@ -2843,7 +2845,7 @@ export class OpenSeaPort {
       // calls on mainnet, since Decentraland uses Ropsten
       const decentralandEstateAddress = DECENTRALAND_ESTATE_ADDRESS;
       const decentralandEstateABI = this.web3.eth.contract(
-        DecentralandEstates as any[]
+        DecentralandEstates as Web3.AbiDefinition[]
       );
       const decentralandEstateInstance = await decentralandEstateABI.at(
         decentralandEstateAddress
@@ -3243,7 +3245,7 @@ export class OpenSeaPort {
 
   /**
    * Validate against Wyvern that a buy and sell order can match
-   * @param param0 __namedParamters Object
+   * @param param0 __namedParameters Object
    * @param buy The buy order to validate
    * @param sell The sell order to validate
    * @param accountAddress Address for the user's wallet
@@ -3306,7 +3308,9 @@ export class OpenSeaPort {
     } catch (error) {
       if (retries <= 0) {
         throw new Error(
-          `Error matching this listing: ${error.message}. Please contact the maker or try again later!`
+          `Error matching this listing: ${
+            error instanceof Error ? error.message : ""
+          }. Please contact the maker or try again later!`
         );
       }
       await delay(500);
@@ -3552,10 +3556,12 @@ export class OpenSeaPort {
         }
         switch (schemaName) {
           case WyvernSchemaName.ERC721:
+          case WyvernSchemaName.ERC721v3:
           case WyvernSchemaName.ERC1155:
           case WyvernSchemaName.LegacyEnjin:
           case WyvernSchemaName.ENSShortNameAuction:
             // Handle NFTs and SFTs
+            // eslint-disable-next-line no-case-declarations
             const wyNFTAsset = wyAsset as WyvernNFTAsset;
             return await this.approveSemiOrNonFungibleToken({
               tokenId: wyNFTAsset.id.toString(),
@@ -3567,6 +3573,7 @@ export class OpenSeaPort {
             });
           case WyvernSchemaName.ERC20:
             // Handle FTs
+            // eslint-disable-next-line no-case-declarations
             const wyFTAsset = wyAsset as WyvernFTAsset;
             if (contractsWithApproveAll.has(wyFTAsset.address)) {
               // Return null to indicate no tx occurred
@@ -3827,7 +3834,7 @@ export class OpenSeaPort {
   }
 
   /**
-   * Get the listing and expiration time paramters for a new order
+   * Get the listing and expiration time parameters for a new order
    * @param expirationTimestamp Timestamp to expire the order (in seconds), or 0 for non-expiring
    * @param listingTimestamp Timestamp to start the order (in seconds), or undefined to start it now
    * @param waitingForBestCounterOrder Whether this order should be hidden until the best match is found
@@ -4172,10 +4179,11 @@ export class OpenSeaPort {
     } catch (error) {
       console.error(`Failed atomic match with args: `, args, error);
       throw new Error(
-        `Oops, the Ethereum network rejected this transaction :( The OpenSea devs have been alerted, but this problem is typically due an item being locked or untransferrable. The exact error was "${error.message.substr(
-          0,
-          MAX_ERROR_LENGTH
-        )}..."`
+        `Oops, the Ethereum network rejected this transaction :( The OpenSea devs have been alerted, but this problem is typically due an item being locked or untransferrable. The exact error was "${
+          error instanceof Error
+            ? error.message.substr(0, MAX_ERROR_LENGTH)
+            : "unknown"
+        }..."`
       );
     }
 
@@ -4228,7 +4236,9 @@ export class OpenSeaPort {
 
       throw new Error(
         `Failed to authorize transaction: "${
-          error.message ? error.message : "user denied"
+          error instanceof Error && error.message
+            ? error.message
+            : "user denied"
         }..."`
       );
     }
@@ -4282,7 +4292,7 @@ export class OpenSeaPort {
     }
   }
 
-  private _getSchema(schemaName?: WyvernSchemaName): Schema<any> {
+  private _getSchema(schemaName?: WyvernSchemaName): Schema<WyvernAsset> {
     const schemaName_ = schemaName || WyvernSchemaName.ERC721;
     const schema = WyvernSchemas.schemas[this._networkName].filter(
       (s) => s.name == schemaName_
@@ -4371,7 +4381,7 @@ export class OpenSeaPort {
     description: string,
     testForSuccess: () => Promise<boolean>
   ): Promise<void> {
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const initialRetries = 60;
 
       const testResolve: (r: number) => Promise<void> = async (retries) => {

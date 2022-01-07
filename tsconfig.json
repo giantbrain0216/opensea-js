@@ -1,26 +1,35 @@
 {
-    "include": [
-        "./src/**/*",
-        "./node_modules/web3-typescript-typings/index.d.ts",
-        "./node_modules/types-bn/index.d.ts",
-        "./node_modules/types-ethereumjs-util/index.d.ts"
-    ],
-    "compilerOptions": {
-        "outDir": "lib",
-        "noImplicitThis": false,
-        "module": "commonjs",
-        "target": "es5",
-        "types": ["node"],
-        "lib": ["es2017", "dom"],
-        "sourceMap": true,
-        "declaration": true,
-        "experimentalDecorators": true,
-        "noImplicitReturns": true,
-        "pretty": true,
-        "strict": true,
-        "baseUrl": ".",
-        "paths": {
-            "buffer" : ["./buffer-override.d.ts"]
-        }
+  "include": [
+    "./src/**/*",
+    "./node_modules/web3-typescript-typings/index.d.ts",
+    "./node_modules/types-bn/index.d.ts",
+    "./node_modules/types-ethereumjs-util/index.d.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "lib",
+    "target": "es5",
+    "lib": ["dom", "esnext"],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noErrorTruncation": true,
+    "noImplicitThis": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "buffer": ["./buffer-override.d.ts"]
     }
+  }
 }

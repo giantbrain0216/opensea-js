@@ -1,13 +1,17 @@
-import { OpenSeaPort } from './seaport'
-import { OpenSeaAPI } from './api'
-import { Network, EventData, EventType } from './types'
-export { orderToJSON, orderFromJSON, WyvernProtocol } from './utils/utils'
+/* eslint-disable import/no-unused-modules */
+import { OpenSeaAPI } from "./api";
+import { OpenSeaPort } from "./seaport";
+import { Network, EventData, EventType } from "./types";
+export { orderToJSON, orderFromJSON, WyvernProtocol } from "./utils/utils";
 export {
   encodeCall,
-  encodeSell, encodeAtomicizedBuy, encodeAtomicizedSell,
-  encodeDefaultCall, encodeReplacementPattern,
+  encodeSell,
+  encodeAtomicizedBuy,
+  encodeAtomicizedSell,
+  encodeDefaultCall,
+  encodeReplacementPattern,
   AbiType,
-} from './utils/schema'
+} from "./utils/schema";
 
 /**
  * Example setup:
@@ -27,7 +31,8 @@ export {
   OpenSeaAPI,
   // Useful for serializing and deserializing orders:
   // Types to help initialize SDK and listen to events.
-  // Can also be imported using e.g.
-  //   import { EventType } from 'opensea-js/lib/types'
-  EventData, EventType, Network
-}
+  EventType,
+  Network,
+};
+
+export type { EventData };
