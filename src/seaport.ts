@@ -1154,11 +1154,12 @@ export class OpenSeaPort {
     const { buy, sell } = assignOrdersToSides(order, matchingOrder);
 
     const metadata = this._getMetadata(order, referrerAddress);
-    const transactionHash = await this._atomicMatch(
-      { buy, sell, accountAddress, metadata },
-      false,
-      false
-    );
+    const transactionHash = await this._atomicMatch({
+      buy,
+      sell,
+      accountAddress,
+      metadata,
+    });
 
     await this._confirmTransaction(
       transactionHash,
@@ -1201,11 +1202,13 @@ export class OpenSeaPort {
     const { buy, sell } = assignOrdersToSides(order, matchingOrder);
 
     const metadata = this._getMetadata(order, referrerAddress);
-    return this._atomicMatch(
-      { buy, sell, accountAddress, metadata },
-      true,
-      false
-    );
+    const { args, txnData } = await this._getAtomicMatchCallArgs({
+      buy,
+      sell,
+      accountAddress,
+      metadata,
+    });
+    return this._getAtomicMatchGasEstimation({ args, txnData });
   }
 
   /**
@@ -1240,11 +1243,12 @@ export class OpenSeaPort {
     const { buy, sell } = assignOrdersToSides(order, matchingOrder);
 
     const metadata = this._getMetadata(order, referrerAddress);
-    return this._atomicMatch(
-      { buy, sell, accountAddress, metadata },
-      false,
-      true
-    );
+    return this._getAtomicMatchCallArgs({
+      buy,
+      sell,
+      accountAddress,
+      metadata,
+    });
   }
 
   /**
@@ -3996,53 +4000,15 @@ export class OpenSeaPort {
     return undefined;
   }
 
-  private async _atomicMatch(
-    data: {
-      buy: Order;
-      sell: Order;
-      accountAddress: string;
-      metadata?: string;
-    },
-    onlyGetGasEstimation: true,
-    onlyGetCallArgs: false
-  ): Promise<number>;
-
-  private async _atomicMatch(
-    data: {
-      buy: Order;
-      sell: Order;
-      accountAddress: string;
-      metadata?: string;
-    },
-    onlyGetGasEstimation: false,
-    onlyGetCallArgs: false
-  ): Promise<string>;
-
-  private async _atomicMatch(
-    data: {
-      buy: Order;
-      sell: Order;
-      accountAddress: string;
-      metadata?: string;
-    },
-    onlyGetGasEstimation: false,
-    onlyGetCallArgs: true
-  ): Promise<{
-    args: WyvernAtomicMatchParameters;
-    txnData: { from: string; value?: BigNumber; gas?: number };
-  }>;
-
-  private async _atomicMatch(
-    {
-      buy,
-      sell,
-      accountAddress,
-      metadata = NULL_BLOCK_HASH,
-    }: { buy: Order; sell: Order; accountAddress: string; metadata?: string },
-    onlyGetGasEstimation: boolean,
-    onlyGetCallArgs: boolean
-  ): Promise<string | number | any> {
-    let value: BigNumber | undefined;
+  private async _validateOrderMatch({
+    buy,
+    sell,
+    accountAddress,
+  }: {
+    buy: Order;
+    sell: Order;
+    accountAddress: string;
+  }): Promise<void> {
     let shouldValidateBuy = true;
     let shouldValidateSell = true;
 
@@ -4061,11 +4027,6 @@ export class OpenSeaPort {
         accountAddress,
       });
       shouldValidateBuy = false;
-
-      // If using ETH to pay, set the value of the transaction to the current price
-      if (buy.paymentToken == NULL_ADDRESS) {
-        value = await this._getRequiredAmountForTakingSellOrder(sell);
-      }
     } else {
       // User is neither - matching service
     }
@@ -4077,15 +4038,33 @@ export class OpenSeaPort {
       shouldValidateBuy,
       shouldValidateSell,
     });
+  }
 
-    this._dispatch(EventType.MatchOrders, {
-      buy,
-      sell,
-      accountAddress,
-      matchMetadata: metadata,
-    });
+  private async _getAtomicMatchCallArgs({
+    buy,
+    sell,
+    accountAddress,
+    metadata = NULL_BLOCK_HASH,
+  }: {
+    buy: Order;
+    sell: Order;
+    accountAddress: string;
+    metadata?: string;
+  }): Promise<{
+    args: WyvernAtomicMatchParameters;
+    txnData: { from: string; value?: BigNumber; gas?: number };
+  }> {
+    this._validateOrderMatch({ buy, sell, accountAddress });
 
-    let txHash;
+    let value: BigNumber | undefined;
+    if (
+      buy.maker.toLowerCase() == accountAddress.toLowerCase() &&
+      buy.paymentToken == NULL_ADDRESS
+    ) {
+      // If using ETH to pay, set the value of the transaction to the current price
+      value = await this._getRequiredAmountForTakingSellOrder(sell);
+    }
+
     const txnData: { from: string; value?: BigNumber; gas?: number } = {
       from: accountAddress,
       value,
@@ -4153,29 +4132,27 @@ export class OpenSeaPort {
       ],
     ];
 
-    // Estimate gas first
+    return {
+      args,
+      txnData,
+    };
+  }
+
+  private async _getAtomicMatchGasEstimation({
+    args,
+    txnData,
+  }: {
+    args: WyvernAtomicMatchParameters;
+    txnData: { from: string; value?: BigNumber; gas?: number };
+  }): Promise<number> {
     try {
-      // Typescript splat doesn't typecheck
       const gasEstimate =
         await this._wyvernProtocolReadOnly.wyvernExchange.atomicMatch_.estimateGasAsync(
-          args[0],
-          args[1],
-          args[2],
-          args[3],
-          args[4],
-          args[5],
-          args[6],
-          args[7],
-          args[8],
-          args[9],
-          args[10],
+          ...args,
           txnData
         );
 
-      txnData.gas = this._correctGasAmount(gasEstimate);
-      if (onlyGetGasEstimation) {
-        return txnData.gas;
-      }
+      return this._correctGasAmount(gasEstimate);
     } catch (error) {
       console.error(`Failed atomic match with args: `, args, error);
       throw new Error(
@@ -4186,41 +4163,44 @@ export class OpenSeaPort {
         }..."`
       );
     }
+  }
 
-    if (onlyGetCallArgs) {
-      return {
-        args: [
-          args[0],
-          args[1],
-          args[2],
-          args[3],
-          args[4],
-          args[5],
-          args[6],
-          args[7],
-          args[8],
-          args[9],
-          args[10],
-        ],
-        txnData,
-      };
-    }
-    // Then do the transaction
+  private async _atomicMatch({
+    buy,
+    sell,
+    accountAddress,
+    metadata = NULL_BLOCK_HASH,
+  }: {
+    buy: Order;
+    sell: Order;
+    accountAddress: string;
+    metadata?: string;
+  }): Promise<string> {
+    const { args, txnData } = await this._getAtomicMatchCallArgs({
+      buy,
+      sell,
+      accountAddress,
+      metadata,
+    });
+    txnData.gas = await this._getAtomicMatchGasEstimation({
+      args,
+      txnData,
+    });
+
+    this._dispatch(EventType.MatchOrders, {
+      buy,
+      sell,
+      accountAddress,
+      matchMetadata: metadata,
+    });
+
+    let txHash: string;
+    // do the transaction
     try {
       this.logger(`Fulfilling order with gas set to ${txnData.gas}`);
       txHash =
         await this._wyvernProtocol.wyvernExchange.atomicMatch_.sendTransactionAsync(
-          args[0],
-          args[1],
-          args[2],
-          args[3],
-          args[4],
-          args[5],
-          args[6],
-          args[7],
-          args[8],
-          args[9],
-          args[10],
+          ...args,
           txnData
         );
     } catch (error) {
