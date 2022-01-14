@@ -663,20 +663,16 @@ export class OpenSeaPort {
     sellOrder?: Order;
     referrerAddress?: string;
   }): Promise<Order> {
-    // Default to 1 of each asset
-    quantities = quantities || assets.map((_a) => 1);
-    paymentTokenAddress =
-      paymentTokenAddress ||
-      WyvernSchemas.tokens[this._networkName].canonicalWrappedEther.address;
-
     const order = await this._makeBundleBuyOrder({
       assets,
       collection,
-      quantities,
+      quantities: quantities ?? assets.map((_a) => 1), // Default to 1 of each asset
       accountAddress,
       startAmount,
       expirationTime,
-      paymentTokenAddress,
+      paymentTokenAddress:
+        paymentTokenAddress ??
+        WyvernSchemas.tokens[this._networkName].canonicalWrappedEther.address,
       extraBountyBasisPoints: 0,
       sellOrder,
       referrerAddress,
@@ -739,17 +735,15 @@ export class OpenSeaPort {
     sellOrder?: Order;
     referrerAddress?: string;
   }): Promise<Order> {
-    paymentTokenAddress =
-      paymentTokenAddress ||
-      WyvernSchemas.tokens[this._networkName].canonicalWrappedEther.address;
-
     const order = await this._makeBuyOrder({
       asset,
       quantity,
       accountAddress,
       startAmount,
       expirationTime,
-      paymentTokenAddress,
+      paymentTokenAddress:
+        paymentTokenAddress ??
+        WyvernSchemas.tokens[this._networkName].canonicalWrappedEther.address,
       extraBountyBasisPoints: 0,
       sellOrder,
       referrerAddress,
